@@ -1,2 +1,4 @@
-# todo
-to do appliation base on flask
+finance
+===
+spitirLong finance appliation base on flask
+
