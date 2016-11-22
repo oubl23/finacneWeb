@@ -2,3 +2,4 @@ flask
 flask-script
 flask-wtf
 flask-sqlalchemy
+xlrd
