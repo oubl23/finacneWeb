@@ -114,8 +114,3 @@ class Finance(object):
         else:
             return  data.encode('utf-8').strip()
 
-    def GetFileNameAndExt(filename):
-        import os
-        (filepath, tempfilename) = os.path.split(filename);
-        (shotname, extension) = os.path.splitext(tempfilename);
-        return shotname, extension
