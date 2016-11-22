@@ -6,6 +6,8 @@ import os
 import time
 import zipfile
 
+import xlwt
+
 from financeControl import Finance
 
 # ALI0577.csv ALI0677.csv ALI7789.csv
@@ -248,10 +250,31 @@ for files, data in DATA.items():
     if os.path.exists(filename):
         name = os.path.splitext(files)[0]
         # finacne = Finance(filename,name, data["type"], data["DATA"], data["start"], data["stop"], data["format"], fixtable= (data.has_key("fix") if 1 else 0))
-        finacne = Finance(files, name, "./static/data/")
+        finacne = Finance(filename=files, nameid=name, path="./static/data/")
         datainall.extend(finacne.content)
         finacne.close_file()
     else:
         print "files no in "
 
-print json.dumps(datainall)
+#print json.dumps(datainall)
+
+DATAHEAD = {'DATE':"0",'MONEY':"1",'REMARK':"2","ACCOUNT":"3"}
+
+workbook = xlwt.Workbook(encoding = 'utf-8')
+sheet = workbook.add_sheet("finance",cell_overwrite_ok=True)
+style = xlwt.XFStyle()
+font = xlwt.Font()
+font.name = 'SimSun' # 指定“宋体”
+style.font = font
+for k,v in DATAHEAD.items():
+    sheet.write(0,int(v),k)
+i = 1
+
+for line in datainall:
+    for k,v in line.items():
+        if DATAHEAD.has_key(k):
+            #print k,v,
+            sheet.write(i, int(DATAHEAD[k]), v)
+    i = i + 1
+    #print
+workbook.save('test.xls')

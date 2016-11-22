@@ -44,18 +44,18 @@ class FINANCIAL_JOURNAL(db.Model):
 
 
 class Finance_data():
-    financial_journal_all = []
 
-    def __init__(self, filename, path, name):
+    def __init__(self, filename, path, account_id):
+        self.financial_journal_all = []
         self.account = filename
-        self.finance = Finance(filename=filename, path=path, name=name)
+        self.finance = Finance(filename=filename, path=path, nameid=account_id)
         self.content = self.finance.content
         self.__get_financial_journal()
 
     def __get_financial_journal(self):
         for line in self.content:
             financial_journal = FINANCIAL_JOURNAL(REMARK=line["REMARK"], MONEY=line["MONEY"],
-                                                  DATE="2016-11-22 00:00:00", JOB_ID="0", REASON="", ACCOUNT_ID=0)
+                                                  DATE=line["DATE"], JOB_ID="0", REASON="", ACCOUNT_ID=line["ACCOUNT"])
             self.financial_journal_all.append(financial_journal)
 
     def save_journal(self):

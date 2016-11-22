@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import csv
+
 import xlrd
 
 # ALI0577.csv ALI0677.csv ALI7789.csv
@@ -107,6 +108,7 @@ def cmd_data_format(content):
             line["MONEY"] = float(line["EXPEND"]) * -1
         else:
             line["MONEY"] = 0
+        line["DATE"] = line["DATE"][0:4] + "-" + line["DATE"][4:6] + "-" + line["DATE"][6:8] + " " + line["TIME"]
 
 
 def cmc_start_check(data):
@@ -169,6 +171,8 @@ def cqc_stop_check(data):
 def cqc_data_format(content):
     for line in content:
         line["MONEY"] = float(line["MONEY"].replace("元", "").replace(",", ""))
+        line["DATE"] = str(line["DATE"])[0:4] + "-" + str(line["DATE"])[4:6] + "-" + str(line["DATE"])[6:8]
+
 
 
 def cqa_start_check(data):
@@ -199,38 +203,27 @@ def swu_data_format(content):
 
 DATA = {
     "ALI0577.csv": {"filename": "ALI0577.csv", "type": "csv", "start": ali_start_check, "stop": ali_stop_check,
-                    "format": ali_data_format,
-                    "DATA": ALIDATAHEAD},
+                    "format": ali_data_format, "DATA": ALIDATAHEAD},
     "ALI0677.csv": {"filename": "ALI0677.csv", "type": "csv", "start": ali_start_check, "stop": ali_stop_check,
-                    "format": ali_data_format,
-                    "DATA": ALIDATAHEAD},
+                    "format": ali_data_format, "DATA": ALIDATAHEAD},
     "ALI7789.csv": {"filename": "ALI7789.csv", "type": "csv", "start": ali_start_check, "stop": ali_stop_check,
-                    "format": ali_data_format,
-                    "DATA": ALIDATAHEAD},
+                    "format": ali_data_format, "DATA": ALIDATAHEAD},
     "CMC5102.csv": {"filename": "CMC5102.csv", "type": "csv", "start": cmc_start_check, "stop": cmc_stop_check,
-                    "format": cmc_data_format,
-                    "DATA": CMCDATAHEAD},
+                    "format": cmc_data_format, "DATA": CMCDATAHEAD},
     "CMD0091.csv": {"filename": "CMD0091.csv", "type": "csv", "start": cmd_start_check, "stop": cmd_stop_check,
-                    "format": cmd_data_format,
-                    "DATA": CMDDATAHEAD},
+                    "format": cmd_data_format, "DATA": CMDDATAHEAD},
     "ICC8451.csv": {"filename": "ICC8451.csv", "type": "csv", "start": icc_start_check, "stop": icc_stop_check,
-                    "format": icc_data_format,
-                    "DATA": ICCDATAHEAD},
+                    "format": icc_data_format, "DATA": ICCDATAHEAD},
     "CQA7074.xls": {"filename": "CQA7074.xls", "type": "excel", "start": cqa_start_check, "stop": cqa_stop_check,
-                    "format": cqa_data_format,
-                    "DATA": CQADATAHEAD},
+                    "format": cqa_data_format, "DATA": CQADATAHEAD},
     "CQD0403.xls": {"filename": "CQD0403.xls", "type": "excel", "start": cqd_start_check, "stop": cqd_stop_check,
-                    "format": cqd_data_format,
-                    "DATA": CQDDATAHEAD},
+                    "format": cqd_data_format, "DATA": CQDDATAHEAD},
     "CQD3554.xls": {"filename": "CQD3354.xls", "type": "excel", "start": cqd_start_check, "stop": cqd_stop_check,
-                    "format": cqd_data_format,
-                    "DATA": CQDDATAHEAD, "fix": 1},
+                    "format": cqd_data_format, "DATA": CQDDATAHEAD, "fix": 1},
     "CQC1254.xlsx": {"filename": "CQC1254.xlsx", "type": "excel", "start": cqc_start_check, "stop": cqc_stop_check,
-                     "format": cqc_data_format,
-                     "DATA": CQCDATAHEAD},
+                     "format": cqc_data_format, "DATA": CQCDATAHEAD},
     "SWU7814.xlsx": {"filename": "SWU7814.xlsx", "type": "excel", "start": swu_start_check, "stop": swu_stop_check,
-                     "format": swu_data_format,
-                     "DATA": SWUDATAHEAD},
+                     "format": swu_data_format, "DATA": SWUDATAHEAD},
 }
 
 
@@ -245,24 +238,25 @@ class Finance(object):
     content = []
     excelstart = 0
 
-    def __init__(self, filename, name, path):
+    def __init__(self, filename, nameid, path):
         self.filehead = dict()
         self.filecontent = ''
         self.content = []
         self.filename = filename
         self.path = path + filename
+        fixtable = 0
         if DATA.has_key(filename):
             self.type = DATA[filename]["type"]
             self.DATAHEAD = DATA[filename]["DATA"]
             self.stop_checker = DATA[filename]["stop"]
             self.start_checker = DATA[filename]["start"]
             self.data_format = DATA[filename]["format"]
-            fixtable = 0
             if DATA[filename].has_key("fix"):
                 fixtable = DATA[filename]["fix"]
 
         self.__open_file()
-        self.name = name
+        self.name_id = nameid
+
         if self.type == "csv":
             self.get_table_head_csv(self.start_checker)
             self.get_table_content_csv(self.stop_checker)
@@ -276,7 +270,8 @@ class Finance(object):
                         break
 
             self.get_table_content_excel(self.stop_checker)
-            self.data_format(self.content)
+
+        self.data_format(self.content)
 
     def __open_file(self):
         if self.type == "csv":
@@ -307,7 +302,7 @@ class Finance(object):
             if self.csv_data_stop(line, checker):
                 break
             account = dict()
-            account["ACCOUNT"] = self.name
+            account["ACCOUNT"] = self.name_id
             for i in range(len(line)):
                 if self.filehead.has_key(i):
                     account[self.filehead[i]] = self.format_data(line[i])
@@ -339,7 +334,7 @@ class Finance(object):
             if self.excel_data_stop(self.filecontent.cell_value(i, 0), checker):
                 continue
             account = dict()
-            account["ACCOUNT"] = self.name
+            account["ACCOUNT"] = self.name_id
             for j in range(self.filecontent.ncols):
                 if self.filehead.has_key(j):
                     data = self.format_data_excel(self.filecontent.cell_value(i, j))
@@ -354,3 +349,9 @@ class Finance(object):
             return int(data)
         else:
             return data.encode('utf-8').strip()
+
+
+if __name__ == "__main__":
+    finance = Finance("CQC1254.xlsx", "CMC5102", "./static/upload/data/")
+    for content in finance.content:
+        print content

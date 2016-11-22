@@ -1,8 +1,7 @@
 from flask import render_template, jsonify
 from flask import request
-from sqlalchemy.orm import Session
-
 from app import app, db
+import zipfile
 from models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL
 
 
@@ -27,11 +26,20 @@ def save_journal():
 
 @app.route("/save_all_journal")
 def save_all_journal():
-    s = Session()
-    objects = [
+    pass
+    # filename = './static/upload/finance.zip'
+    # filedir = './static/data/'
+    # r = zipfile.is_zipfile(filename)
+    # if r:
+    #     fz = zipfile.ZipFile(filename, 'r')
+    #     for file in fz.namelist():
+    #         fz.extract(file, filedir)
+    # else:
+    #     return jsonify(status="fail")
+    # financial_accounts = FINANCIAL_ACCOUNT().query.all()
+    #
+    # for account in financial_accounts:
 
-    ]
-    s.bulk_save_objects(objects)
 
 
     # @app.route('/add',methods=["POST",])
