@@ -59,5 +59,7 @@ class Finance_data():
             self.financial_journal_all.append(financial_journal)
 
     def save_journal(self):
-        db.session.bulk_save_objects(self.financial_journal_all)
+        #db.session.bulk_save_objects(self.financial_journal_all)
+        #for fins in self.financial_journal_all:
+        db.session.bulk_insert_mappings(FINANCIAL_JOURNAL,self.financial_journal_all)
         db.session.commit()

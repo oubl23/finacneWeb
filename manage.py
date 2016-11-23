@@ -12,7 +12,7 @@ manager = Manager(app)
 def save():
     journal = FINANCIAL_JOURNAL(REMARK="123", MONEY="20", DATE="2016-11-22 00:00:00", JOB_ID="1", REASON="",
                                 ACCOUNT_ID="1")
-    db.session.add(journal)
+    db.session.merge(journal)
     db.session.commit()
 
 
