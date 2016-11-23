@@ -1,8 +1,13 @@
+import json
+import shutil
+import time
+import zipfile
+
 from flask import render_template, jsonify
 from flask import request
+
 from app import app, db
-import zipfile
-from models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL
+from models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL, Finance_data, FINANCIAL_BALANCE
 
 
 @app.route("/")
@@ -12,8 +17,17 @@ def index():
 
 @app.route("/list_account")
 def list_account():
-    finances = FINANCIAL_ACCOUNT.query.all()
-    return jsonify(status="success", finances=[finance.tojson() for finance in finances])
+    #finances = FINANCIAL_ACCOUNT.query.all()
+    finances = db.session.query(FINANCIAL_ACCOUNT, db.func.max(FINANCIAL_BALANCE.DATETIME)).outerjoin(FINANCIAL_BALANCE,
+                                                                                           FINANCIAL_ACCOUNT.ID == FINANCIAL_BALANCE.ACCOUNT_ID).group_by(
+    FINANCIAL_BALANCE.ACCOUNT_ID).all()
+    accounts = []
+    for finance in finances:
+        account = finance.FINANCIAL_ACCOUNT.tojson()
+        account["DATETIME"] = str(finance[1])
+        accounts.append(account)
+    #return jsonify(status="success", finances=[finance.FINANCIAL_ACCOUNT.tojson() for finance in finances])
+    return jsonify(status="success", accounts = accounts)
 
 
 @app.route("/save_journal")
@@ -26,21 +40,45 @@ def save_journal():
 
 @app.route("/save_all_journal")
 def save_all_journal():
-    pass
-    # filename = './static/upload/finance.zip'
-    # filedir = './static/data/'
-    # r = zipfile.is_zipfile(filename)
-    # if r:
-    #     fz = zipfile.ZipFile(filename, 'r')
-    #     for file in fz.namelist():
-    #         fz.extract(file, filedir)
-    # else:
-    #     return jsonify(status="fail")
-    # financial_accounts = FINANCIAL_ACCOUNT().query.all()
-    #
-    # for account in financial_accounts:
+    filename = './app/static/upload/finance.zip'
+    filedir = './app/static/upload/data'
+    r = zipfile.is_zipfile(filename)
+    result = dict()
+    if r:
+        fz = zipfile.ZipFile(filename, 'r')
+        for file in fz.namelist():
+            fz.extract(file, filedir)
+        fz.close()
+    else:
+        return jsonify(static="error", message="not zip file")
+    financial_accounts = FINANCIAL_ACCOUNT().query.all()
+    DATA = {
+        "ALI0577": {"filename": "ALI0577.csv"},
+        "ALI0677": {"filename": "ALI0677.csv"},
+        "ALI7789": {"filename": "ALI7789.csv"},
+        "CMC5102": {"filename": "CMC5102.csv"},
+        "CMD0091": {"filename": "CMD0091.csv"},
+        "ICC8451": {"filename": "ICC8451.csv"},
+        "CQA7074": {"filename": "CQA7074.xls"},
+        "CQD0403": {"filename": "CQD0403.xls"},
+        "CQD3554": {"filename": "CQD3554.xls"},
+        "CQC1254": {"filename": "CQC1254.xlsx"},
+        "SWU7814": {"filename": "SWU7814.xlsx"}
+    }
+    noexist = []
+    for account in financial_accounts:
+        if DATA.has_key(account.SHORT_NAME):
+            finance_datas = Finance_data(filename=DATA[account.SHORT_NAME]["filename"],
+                                         path="./app/static/upload/data/", account_id=account.ID)
+            finance_datas.save_journal()
+        else:
+            noexist.append(account.SHORT_NAME)
 
+    shutil.rmtree("./app/static/upload/data")
+    newfilename = "./app/static/upload/" + time.strftime("%Y%m%d%H%M%S", time.localtime(time.time())) + ".zip"
+    shutil.move("./app/static/upload/finance.zip", newfilename)
 
+    return jsonify(status="success", noexist=json.dumps(noexist))
 
     # @app.route('/add',methods=["POST",])
     # def add():

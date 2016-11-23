@@ -306,6 +306,8 @@ class Finance(object):
             for i in range(len(line)):
                 if self.filehead.has_key(i):
                     account[self.filehead[i]] = self.format_data(line[i])
+            if account in self.content:
+                account["REMARK"] = account["REMARK"] + "I"
             self.content.append(account)
 
     def csv_data_start(self, checker):
@@ -339,6 +341,8 @@ class Finance(object):
                 if self.filehead.has_key(j):
                     data = self.format_data_excel(self.filecontent.cell_value(i, j))
                     account[self.filehead[j]] = data
+            if account in self.content:
+                account["REMARK"] = account["REMARK"] + "I"
             self.content.append(account)
 
     def format_data(self, data):
