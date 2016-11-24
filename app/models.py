@@ -8,6 +8,7 @@ class FINANCIAL_ACCOUNT(db.Model):
     SHORT_NAME = db.Column(db.String)
     REMARK = db.Column(db.String)
     DATA = db.Column(db.String)
+    LIMIT = db.Column(db.Integer)
 
     def tojson(self):
         return {
@@ -15,7 +16,8 @@ class FINANCIAL_ACCOUNT(db.Model):
             'NAME': self.NAME,
             'SHORT_NAME': self.SHORT_NAME,
             'DATA': self.DATA,
-            'REMAKR': self.REMARK
+            'REMAKR': self.REMARK,
+            'LIMIT':self.LIMIT
         }
 
     def __str__(self):
@@ -48,6 +50,7 @@ class FINANCIAL_BALANCE(db.Model):
     ACCOUNT_ID = db.Column(db.Integer,db.ForeignKey('FINANCIAL_ACCOUNT.ID'))
     MONEY = db.Column(db.Float)
     CHECKED = db.Column(db.Integer)
+    ACCESSARY = db.Column(db.Float)
 
 class Finance_data():
     def __init__(self, filename, path, account_id):

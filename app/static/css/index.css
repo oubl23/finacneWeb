@@ -34,7 +34,7 @@ body {
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    max-width: 730px;
+    max-width: 100%;
   }
 }
 .container-narrow > hr {
@@ -44,7 +44,13 @@ body {
 /* Main marketing message and sign up button */
 .jumbotron {
   border-bottom: 1px solid #e5e5e5;
+  padding: 10px;
+  padding-bottom: 20px;
 }
+.form-group{
+  margin-bottom: 0px;
+}
+
 
 /* Supporting marketing content */
 .marketing {

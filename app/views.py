@@ -1,16 +1,19 @@
+import datetime
 import json
+import os
 import shutil
 import time
 import zipfile
 
 from flask import render_template, jsonify
 from flask import request
+from flask import send_from_directory
 
 from app import app, db
 from models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL, Finance_data, FINANCIAL_BALANCE
 
 
-@app.route("/")
+@app.route("/", methods=["POST", "GET"])
 def index():
     finances = db.session.query(FINANCIAL_ACCOUNT, db.func.max(FINANCIAL_BALANCE.DATETIME)).outerjoin(FINANCIAL_BALANCE,
                                                                                                       FINANCIAL_ACCOUNT.ID == FINANCIAL_BALANCE.ACCOUNT_ID).add_columns(
@@ -93,9 +96,21 @@ def save_all_journal():
     return jsonify(status="success", noexist=json.dumps(noexist))
 
 
-@app.route("/add_balance")
+@app.route("/add_balance", methods=["POST", ])
 def add_balance():
-    pass
+    forms = request.form.get("balance")
+    balances = json.loads(forms)
+    # print balances['balance']
+    for k, v in balances['balance'].items():
+        if v["MONEY"] == '':
+            v["MONEY"] = 0
+        if v["ACCESSARY"] == '':
+            v["ACCESSARY"] = 0
+        balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=datetime.datetime.now(), MONEY=float(v["MONEY"]),
+                          ACCESSARY=float(v["ACCESSARY"]), CHECKED = 0)
+        db.session.merge(balance)
+    db.session.commit()
+    return render_template("/index.html")
     # @app.route('/add',methods=["POST",])
     # def add():
     #     form = TodoForm(request.form)
@@ -132,10 +147,13 @@ def add_balance():
     #     todos = Todo.objects.order_by('-time')
     #     return render_template("index.html", todos=todos, form=form)
 
-    # @app.route('/favicon.ico')
-    # def favicon():
-    #    return send_from_directory(os.path.join(app.root_path, 'static'),
-    #                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
-    # @app.errorhandler(404)
-    # def not_found(error):
-    #     return render_template('404.')
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.')

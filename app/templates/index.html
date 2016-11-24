@@ -1,50 +1,103 @@
 {% extends "base.html" %}
+{% block title %}
+    对账
+{% endblock %}
 {% block content %}
-{#<div class="jumbotron" id="todo-container">#}
+<div class="jumbotron" id="finance-container">
+</div>
 {#</div>#}
 
 
-<form action="/add_balance" method="post">
-    <table class="table table-striped">
-        <caption><h3>财务余额</h3></caption>
-            <thead>
-            <tr>
-                <th>账户名</th>
-                <th>账户别名</th>
-                <th>余额</th>
-                <th>上次更新时间</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for account in accounts  %}
-                <tr>
-                    <td>{{ account.ID  }}</td>
-                    <td>{{ account.SHORT_NAME }}</td>
-                    <td>{{ account.MONEY }}</td>
-                    <td>{{ account.DATETIME }}</td>
-                </tr>
-            {% endfor %}
+{#<form method="post"  >#}
+{#    <input type="file" name="file" title="Change" class="btn btn-small btn-info m-b-small" >#}
+{#    <table class="table table-striped">#}
+{#        <thead>#}
 {#            <tr>#}
-{#                <td>Tanmay</td>#}
-{#                <td>Bangalore</td>#}
-{#                <td>560001</td>#}
+{#                <th>账户名</th>#}
+{#                <th>账户别名</th>#}
+{#                <th>上次对账时间</th>#}
+{#                <th>余额/剩余额度</th>#}
+{#                <th>额度/附属理财</th>#}
 {#            </tr>#}
-{#            <tr>#}
-{#                <td>Sachin</td>#}
-{#                <td>Mumbai</td>#}
-{#                <td>400003</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td>Uma</td>#}
-{#                <td>Pune</td>#}
-{#                <td>411027</td>#}
-{#            </tr>#}
-        </tbody>
-    </table>
-
-
-</form>
-
+{#        </thead>#}
+{#        <tbody>#}
+{#            {% for account in accounts  %}#}
+{#                <tr>#}
+{#                    <td>{{ account.NAME  }}</td>#}
+{#                    <td>{{ account.SHORT_NAME }}</td>#}
+{#                    <td>{{ account.DATETIME }}</td>#}
+{#                    <td class="col-sm-2">#}
+{#                        <input type="text" class="form-control input-sm" name="balance[{{ account.ID }}][MONEY]">#}
+{#                    </td>#}
+{#                    <td class="col-sm-2">#}
+{#                        {% if account.LIMIT != 0 %}#}
+{#                            <div class="form-group has-success">#}
+{#                                <input type="text" class="form-control input-sm" value="{{ account.LIMIT }}"  name="balance[{{ account.ID }}][ACCESSARY]" readonly>#}
+{#                            </div>#}
+{#                        {% else %}#}
+{#                            <div class="form-group">#}
+{#                                <input type="text" class="form-control input-sm" name="balance[{{ account.ID }}][ACCESSARY]">#}
+{#                            </div>#}
+{#                        {% endif %}#}
+{#                    </td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+{#    <div class="form-group col-lg-3 pull-right">#}
+{#        <input class="form-control btn-primary" type="submit">#}
+{#    </div>#}
+{#</form>#}
+{#<pre id="result"></pre>#}
 <script type="text/javascript" src="../static/js/build/bundle.js"></script>
+<script type="application/javascript">
+jQuery.fn.serializeObject=function() {
+  var json = {};
+  jQuery.map(jQuery(this).serializeArray(), function(n, i) {
+    var _ = n.name.indexOf('[');
+    if (_ > -1) {
+      var o = json;
+      _name = n.name.replace(/\]/gi, '').split('[');
+      for (var i=0, len=_name.length; i<len; i++) {
+        if (i == len-1) {
+          if (o[_name[i]]) {
+            if (typeof o[_name[i]] == 'string') {
+              o[_name[i]] = [o[_name[i]]];
+            }
+            o[_name[i]].push(n.value);
+          }
+          else o[_name[i]] = n.value || '';
+        }
+        else o = o[_name[i]] = o[_name[i]] || {};
+      }
+    }
+    else {
+      if (json[n.name] !== undefined) {
+        if (!json[n.name].push) {
+          json[n.name] = [json[n.name]];
+        }
+        json[n.name].push(n.value || '');
+      }
+      else json[n.name] = n.value || '';
+    }
+  });
+  return json;
+};
+$(function() {
+    $('form').submit(function() {
+        add();
+        return false;
+    });
+});
+function add() {
+    balances = $('form').serializeObject();
+        $.ajax({
+            type:"post",
+            url:"/add_balance",
+            data:{balance:JSON.stringify(balances)},
+            dataType: 'json'
+        });
+}
+</script>
 {% endblock %}
 
