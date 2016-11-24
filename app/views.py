@@ -122,7 +122,7 @@ def upldfile():
             file.save(basedir, filename)
             #name = request.form.get('name', '')
             #selectedOption = request.form.get('selectedOption', '')
-            return "SUCCESS"
+            return "success"
 
     # @app.route('/add',methods=["POST",])
     # def add():
