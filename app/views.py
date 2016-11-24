@@ -119,7 +119,7 @@ def upldfile():
         file = request.files['file']
         if file :
             filename = "finance.zip"
-            file.save("/srv/financeWeb/")
+            file.save("C:\\Users\\dabao\\PycharmProjects\\financeWeb\\app\\finance.zip")
             #name = request.form.get('name', '')
             #selectedOption = request.form.get('selectedOption', '')
             return "success"
