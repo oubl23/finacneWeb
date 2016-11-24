@@ -115,7 +115,7 @@ def query_balance():
     #     print g
     #print fc
         # users = db.session.query(User).filter(User.numLogins == max_logins).all()
-    fc = db.session.query(FINANCIAL_ACCOUNT,db.func.max(FINANCIAL_BALANCE.DATETIME)).outerjoin(FINANCIAL_BALANCE,FINANCIAL_ACCOUNT.ID == FINANCIAL_BALANCE.ACCOUNT_ID).group_by(FINANCIAL_BALANCE.ACCOUNT_ID).all()
+    fc = db.session.query(FINANCIAL_ACCOUNT,db.func.max(FINANCIAL_BALANCE.DATETIME)).outerjoin(FINANCIAL_BALANCE,FINANCIAL_ACCOUNT.ID == FINANCIAL_BALANCE.ACCOUNT_ID).add_columns(FINANCIAL_BALANCE.MONEY).group_by(FINANCIAL_BALANCE.ACCOUNT_ID).all()
     for f in fc:
         account = f.FINANCIAL_ACCOUNT.tojson()
         account["DATETIME"] = str(f[1])

@@ -1,10 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="jumbotron" id="todo-container">
-</div>
+{#<div class="jumbotron" id="todo-container">#}
+{#</div>#}
 
 
+<form action="/add_balance" method="post">
+    <table class="table table-striped">
+        <caption><h3>财务余额</h3></caption>
+            <thead>
+            <tr>
+                <th>账户名</th>
+                <th>账户别名</th>
+                <th>余额</th>
+                <th>上次更新时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts  %}
+                <tr>
+                    <td>{{ account.ID  }}</td>
+                    <td>{{ account.SHORT_NAME }}</td>
+                    <td>{{ account.MONEY }}</td>
+                    <td>{{ account.DATETIME }}</td>
+                </tr>
+            {% endfor %}
+{#            <tr>#}
+{#                <td>Tanmay</td>#}
+{#                <td>Bangalore</td>#}
+{#                <td>560001</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>Sachin</td>#}
+{#                <td>Mumbai</td>#}
+{#                <td>400003</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td>Uma</td>#}
+{#                <td>Pune</td>#}
+{#                <td>411027</td>#}
+{#            </tr>#}
+        </tbody>
+    </table>
 
+
+</form>
 
 <script type="text/javascript" src="../static/js/build/bundle.js"></script>
 {% endblock %}

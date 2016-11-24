@@ -12,22 +12,34 @@ from models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL, Finance_data, FINANCIAL
 
 @app.route("/")
 def index():
-    return render_template("index.html")
-
-
-@app.route("/list_account")
-def list_account():
-    #finances = FINANCIAL_ACCOUNT.query.all()
     finances = db.session.query(FINANCIAL_ACCOUNT, db.func.max(FINANCIAL_BALANCE.DATETIME)).outerjoin(FINANCIAL_BALANCE,
-                                                                                           FINANCIAL_ACCOUNT.ID == FINANCIAL_BALANCE.ACCOUNT_ID).group_by(
-    FINANCIAL_BALANCE.ACCOUNT_ID).all()
+                                                                                                      FINANCIAL_ACCOUNT.ID == FINANCIAL_BALANCE.ACCOUNT_ID).add_columns(
+        FINANCIAL_BALANCE.MONEY).group_by(
+        FINANCIAL_BALANCE.ACCOUNT_ID).all()
     accounts = []
     for finance in finances:
         account = finance.FINANCIAL_ACCOUNT.tojson()
         account["DATETIME"] = str(finance[1])
+        account["MONEY"] = finance[2]
         accounts.append(account)
-    #return jsonify(status="success", finances=[finance.FINANCIAL_ACCOUNT.tojson() for finance in finances])
-    return jsonify(status="success", accounts = accounts)
+    return render_template("index.html", accounts=accounts)
+
+
+@app.route("/list_account")
+def list_account():
+    # finances = FINANCIAL_ACCOUNT.query.all()
+    finances = db.session.query(FINANCIAL_ACCOUNT, db.func.max(FINANCIAL_BALANCE.DATETIME)).outerjoin(FINANCIAL_BALANCE,
+                                                                                                      FINANCIAL_ACCOUNT.ID == FINANCIAL_BALANCE.ACCOUNT_ID).add_columns(
+        FINANCIAL_BALANCE.MONEY).group_by(
+        FINANCIAL_BALANCE.ACCOUNT_ID).all()
+    accounts = []
+    for finance in finances:
+        account = finance.FINANCIAL_ACCOUNT.tojson()
+        account["DATETIME"] = str(finance[1])
+        account["MONEY"] = finance[2]
+        accounts.append(account)
+    # return jsonify(status="success", finances=[finance.FINANCIAL_ACCOUNT.tojson() for finance in finances])
+    return jsonify(status="success", accounts=accounts)
 
 
 @app.route("/save_journal")
@@ -80,6 +92,10 @@ def save_all_journal():
 
     return jsonify(status="success", noexist=json.dumps(noexist))
 
+
+@app.route("/add_balance")
+def add_balance():
+    pass
     # @app.route('/add',methods=["POST",])
     # def add():
     #     form = TodoForm(request.form)
