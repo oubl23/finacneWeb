@@ -119,7 +119,7 @@ def upldfile():
         file = request.files['file']
         if file :
             filename = "finance.zip"
-            file.save(basedir, filename)
+            file.save("/srv/financeWeb/")
             #name = request.form.get('name', '')
             #selectedOption = request.form.get('selectedOption', '')
             return "success"
