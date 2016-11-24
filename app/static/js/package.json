@@ -1,7 +1,6 @@
 {
   "name": "index",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +13,6 @@
   },
   "devDependencies": {
     "jsx-loader": "^0.13.2"
-  }
+  },
+  "description": ""
 }

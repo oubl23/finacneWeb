@@ -25,7 +25,7 @@ var Finance = React.createClass({
             <form >
                 <FinanceTable finances = {this.state.accounts} />
                 <div className="form-group col-lg-3 pull-right">
-                    <input className="form-control btn-primary" type="submit"/>
+                    <input className="form-control btn-primary" type="submit" value="下一步"/>
                 </div>
             </form>
         )

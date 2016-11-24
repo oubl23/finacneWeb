@@ -1,4 +1,2 @@
-finance
-===
-spitirLong finance appliation base on flask
-
+# finacneWeb
+the finance Web application
