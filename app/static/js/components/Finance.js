@@ -4,7 +4,6 @@ var FinanceFile = require("./FinanceFile");
 var FinanceMessage = require("./FinanceMessage");
 
 var Finance = React.createClass({
-
     getInitialState:function(){
         return{
             accounts: []
@@ -23,8 +22,8 @@ var Finance = React.createClass({
 
     handleSubmit:function (e) {
         e.preventDefault();
+        waitingDialog.show('Custom message', {dialogSize: 'sm', progressType: 'warning'});
         var form_data = new FormData($('form#account')[0]);
-
         $.ajax({
             type: 'post',
             url: '/add_balance',
@@ -35,12 +34,12 @@ var Finance = React.createClass({
             async: false,
         }).done(function (resp) {
             if(resp.status == "success"){
-                homeLoader.hide();
                 $("form#account")[0].reset();
                 $("#message").html("success");
                 $("#message").addClass("alert alert-success");
                 this.listFinance();
             }
+            waitingDialog.hide();
         }.bind(this))
     },
     componentDidMount: function () {

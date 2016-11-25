@@ -147,7 +147,7 @@ def add_balance():
         return jsonify(status="error")
     file = request.files['file']
     if file.filename == '':
-        return jsonify(statuc="error", infomation="not select file")
+        return jsonify(status="error", infomation="not select file")
     if file and allowed_file(file.filename):
         filename = "finance.zip"
         file.save(os.path.join(basedir, filename))
@@ -161,7 +161,7 @@ def add_balance():
                 fz.extract(file, filedir)
             fz.close()
         else:
-            return jsonify(static="error", message="not zip file")
+            return jsonify(status="error", message="not zip file")
     else:
         return jsonify(status="error", infomation="file is no allow type")
 
