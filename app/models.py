@@ -9,6 +9,7 @@ class FINANCIAL_ACCOUNT(db.Model):
     REMARK = db.Column(db.String)
     DATA = db.Column(db.String)
     LIMIT = db.Column(db.Integer)
+    ACCESSARY = db.Column(db.String)
 
     def tojson(self):
         return {
@@ -17,7 +18,8 @@ class FINANCIAL_ACCOUNT(db.Model):
             'SHORT_NAME': self.SHORT_NAME,
             'DATA': self.DATA,
             'REMAKR': self.REMARK,
-            'LIMIT':self.LIMIT
+            'LIMIT': self.LIMIT,
+            'ACCESSARY': self.ACCESSARY
         }
 
     def __str__(self):
@@ -44,21 +46,25 @@ class FINANCIAL_JOURNAL(db.Model):
             'ACCOUNT_ID': self.ACCOUNT_ID
         }
 
+
 class FINANCIAL_BALANCE(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     DATETIME = db.Column(db.DATETIME)
-    ACCOUNT_ID = db.Column(db.Integer,db.ForeignKey('FINANCIAL_ACCOUNT.ID'))
+    ACCOUNT_ID = db.Column(db.Integer, db.ForeignKey('FINANCIAL_ACCOUNT.ID'))
     MONEY = db.Column(db.Float)
     CHECKED = db.Column(db.Integer)
     ACCESSARY = db.Column(db.Float)
+    BALANCE_ID = db.Column(db.Float)
+
 
 class Finance_data():
-    def __init__(self, filename, path, account_id):
+    def __init__(self, filename, path, account_id,balance_id):
         self.financial_journal_all = []
+        self.balance_id = balance_id
         self.account = filename
         self.finance = Finance(filename=filename, path=path, nameid=account_id)
         self.content = self.finance.content
-        self.__get_financial_journal()
+        #self.__get_financial_journal()
 
     def __get_financial_journal(self):
         for line in self.content:
@@ -68,17 +74,19 @@ class Finance_data():
 
     def save_journal(self):
         # pass
-        #db.session.bulk_save_objects(self.financial_journal_all)
+        # db.session.bulk_save_objects(self.financial_journal_all)
         for line in self.content:
-            res = get_or_create(db.session, FINANCIAL_JOURNAL, REMARK=line["REMARK"], MONEY=line["MONEY"], DATE=line["DATE"],
-                           JOB_ID="0", REASON="", ACCOUNT_ID=line["ACCOUNT"])
-            #db.session.query(FINANCIAL_BALANCE).join(FINANCIAL_ACCOUNT.SHORT_NAME, FINANCIAL_BALANCE.ACCOUNT_ID == FINANCIAL_ACCOUNT.ID)
+            res = get_or_create(db.session, FINANCIAL_JOURNAL, REMARK=line["REMARK"], MONEY=line["MONEY"],
+                                DATE=line["DATE"],
+                                JOB_ID="0", REASON="", ACCOUNT_ID=line["ACCOUNT"], BALANCE_ID = self.balance_id)
+            # db.session.query(FINANCIAL_BALANCE).join(FINANCIAL_ACCOUNT.SHORT_NAME, FINANCIAL_BALANCE.ACCOUNT_ID == FINANCIAL_ACCOUNT.ID)
             # if not res:
             #     print line["REMARK"].decode('utf8'), line["MONEY"],line["DATE"],line["ACCOUNT"]
         db.session.commit()
-            # exists = db.session.query(db.session.query(FINANCIAL_JOURNAL).filter_by(name='John Smith').exists()).scalar()
-            # db.session
-            # db.session.commit()
+        # exists = db.session.query(db.session.query(FINANCIAL_JOURNAL).filter_by(name='John Smith').exists()).scalar()
+        # db.session
+        # db.session.commit()
+
 
 def get_or_create(session, model, **kwargs):
     instance = session.query(model).filter_by(**kwargs).first()
@@ -87,5 +95,5 @@ def get_or_create(session, model, **kwargs):
     else:
         instance = model(**kwargs)
         session.add(instance)
-        #session.commit()
-        #return instance
+        # session.commit()
+        # return instance

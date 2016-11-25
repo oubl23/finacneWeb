@@ -1,10 +1,10 @@
 import datetime
 import json
 import os
+import re
 import shutil
 import time
 import zipfile
-import re
 
 from flask import render_template, jsonify
 from flask import request
@@ -15,9 +15,25 @@ from models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL, Finance_data, FINANCIAL
 
 basedir = os.path.abspath(os.path.dirname(__file__)) + "/static/upload/"
 ALLOWED_EXTENSIONS = set(['zip'])
+DATA = {
+    "ALI0577": {"filename": "ALI0577.csv"},
+    "ALI0677": {"filename": "ALI0677.csv"},
+    "ALI7789": {"filename": "ALI7789.csv"},
+    "CMC5102": {"filename": "CMC5102.csv"},
+    "CMD0091": {"filename": "CMD0091.csv"},
+    "ICC8451": {"filename": "ICC8451.csv"},
+    "CQA7074": {"filename": "CQA7074.xls"},
+    "CQD0403": {"filename": "CQD0403.xls"},
+    "CQD3554": {"filename": "CQD3554.xls"},
+    "CQC1254": {"filename": "CQC1254.xlsx"},
+    "SWU7814": {"filename": "SWU7814.xlsx"}
+}
+
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 
 def parse_to_dict_val(key, value, dict={}):
     # print {"key":key,"value":value,"dict":dict}
@@ -37,7 +53,7 @@ def parse_to_dict_val(key, value, dict={}):
     if (len(n) > 0) and (len(k) == 0) and (len(r) == 0):  # For standard flat values and when no more remains
         dict[n] = value
     elif (len(n) > 0) and (len(k) > 0) and (
-        len(r) == 0):  # if nothing remains to be done, but we have a key, let's set a value
+                len(r) == 0):  # if nothing remains to be done, but we have a key, let's set a value
         dict[n][k] = value
     elif (len(n) > 0) and (len(k) > 0) and (len(r) > 0):
         parse_to_dict_val((k + r), value, dict[n])
@@ -45,6 +61,7 @@ def parse_to_dict_val(key, value, dict={}):
         return {}
 
     return dict
+
 
 def parse_to_dict_vals(dictin):
     dictout = {}
@@ -107,19 +124,7 @@ def save_all_journal():
     else:
         return jsonify(static="error", message="not zip file")
     financial_accounts = FINANCIAL_ACCOUNT().query.all()
-    DATA = {
-        "ALI0577": {"filename": "ALI0577.csv"},
-        "ALI0677": {"filename": "ALI0677.csv"},
-        "ALI7789": {"filename": "ALI7789.csv"},
-        "CMC5102": {"filename": "CMC5102.csv"},
-        "CMD0091": {"filename": "CMD0091.csv"},
-        "ICC8451": {"filename": "ICC8451.csv"},
-        "CQA7074": {"filename": "CQA7074.xls"},
-        "CQD0403": {"filename": "CQD0403.xls"},
-        "CQD3554": {"filename": "CQD3554.xls"},
-        "CQC1254": {"filename": "CQC1254.xlsx"},
-        "SWU7814": {"filename": "SWU7814.xlsx"}
-    }
+
     noexist = []
     for account in financial_accounts:
         if DATA.has_key(account.SHORT_NAME):
@@ -157,11 +162,21 @@ def add_balance():
                 v["MONEY"] = 0
             if v["ACCESSARY"] == '':
                 v["ACCESSARY"] = 0
-            balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=datetime.datetime.now(), MONEY=float(v["MONEY"]),
-                                        ACCESSARY=float(v["ACCESSARY"]), CHECKED=0)
-            db.session.add(balance)
-            db.session.flush()
-            #print balance.ID
+            account = FINANCIAL_ACCOUNT.query.filter_by(ID=int(k)).first()
+            if account:
+                balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=datetime.datetime.now(),
+                                            MONEY=float(v["MONEY"]),
+                                            ACCESSARY=float(v["ACCESSARY"]), CHECKED=0)
+                db.session.add(balance)
+                db.session.flush()
+                if DATA.has_key(account.SHORT_NAME):
+                    finance_data = Finance_data(filename=DATA[account.SHORT_NAME]["filename"],
+                                                 path="./app/static/upload/data/", account_id=account.ID,
+                                                 balance_id=balance.ID)
+                    finance_data.save_journal()
+                else:
+                    pass
+                    # print balance.ID
         db.session.commit()
     return jsonify(status="success")
 
@@ -173,13 +188,14 @@ def upldfile():
             return jsonify(status="error")
         file = request.files['file']
         if file.filename == '':
-            return jsonify(statuc="error",infomation="not select file")
+            return jsonify(statuc="error", infomation="not select file")
         if file and allowed_file(file.filename):
             filename = "finance.zip"
             file.save(os.path.join(basedir, filename))
             return jsonify(status="suucess")
         else:
-            return jsonify(status="error",infomation="file is no allow type")
+            return jsonify(status="error", infomation="file is no allow type")
+
 
 @app.route('/favicon.ico')
 def favicon():

@@ -18,6 +18,11 @@ def save():
     db.session.merge(journal)
     db.session.commit()
 
+@manager.command
+def query_a():
+    res = FINANCIAL_ACCOUNT.query.filter_by(ID = 87).first()
+    print res
+
 
 @manager.command
 def bulk_save():
