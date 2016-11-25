@@ -12,6 +12,7 @@ from flask import send_from_directory
 from app import app, db
 from models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL, Finance_data, FINANCIAL_BALANCE
 
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 @app.route("/", methods=["POST", "GET"])
 def index():
@@ -111,6 +112,18 @@ def add_balance():
         db.session.merge(balance)
     db.session.commit()
     return render_template("/index.html")
+
+@app.route('/uploadajax', methods=['POST'])
+def upldfile():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file :
+            filename = "finance.zip"
+            file.save("C:\\Users\\dabao\\PycharmProjects\\financeWeb\\app\\finance.zip")
+            #name = request.form.get('name', '')
+            #selectedOption = request.form.get('selectedOption', '')
+            return "success"
+
     # @app.route('/add',methods=["POST",])
     # def add():
     #     form = TodoForm(request.form)

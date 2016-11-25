@@ -79,7 +79,7 @@ def get_table():
 
 @manager.command
 def query():
-    finacnes = FINANCIAL_ACCOUNT.query.get(1)
+    finacnes = FINANCIAL_ACCOUNT.query.all()
     print finacnes
 
 
