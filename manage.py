@@ -132,6 +132,13 @@ def query_balance():
 
     # session.query(Ip, func.max(Client.ACCOUNT_ID)).
     # outerjoin(ClientIp, ClientIp.ip_id == Ip.id)
+@manager.command
+def test_buf():
+    buf = {}
+    if 'blance' in buf:
+        print 1
+    else:
+        print 0
 
 
 if __name__ == '__main__':

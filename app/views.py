@@ -4,6 +4,7 @@ import os
 import shutil
 import time
 import zipfile
+import re
 
 from flask import render_template, jsonify
 from flask import request
@@ -12,7 +13,45 @@ from flask import send_from_directory
 from app import app, db
 from models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL, Finance_data, FINANCIAL_BALANCE
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+basedir = os.path.abspath(os.path.dirname(__file__)) + "/static/upload/"
+ALLOWED_EXTENSIONS = set(['zip'])
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+def parse_to_dict_val(key, value, dict={}):
+    # print {"key":key,"value":value,"dict":dict}
+    patt = re.compile(r'(?P<name>.*?)[\[](?P<key>.*?)[\]](?P<remaining>.*?)$')
+    matcher = patt.match(key)
+    matched = matcher == None
+    tmp = (matcher.groupdict() if not matched else {"name": key, "key": '', "remaining": ''})
+    # print tmp
+
+    n = str(tmp['name'])
+    k = str(tmp['key'])
+    r = str(tmp['remaining'])
+
+    if not n in dict:
+        dict[n] = {}
+
+    if (len(n) > 0) and (len(k) == 0) and (len(r) == 0):  # For standard flat values and when no more remains
+        dict[n] = value
+    elif (len(n) > 0) and (len(k) > 0) and (
+        len(r) == 0):  # if nothing remains to be done, but we have a key, let's set a value
+        dict[n][k] = value
+    elif (len(n) > 0) and (len(k) > 0) and (len(r) > 0):
+        parse_to_dict_val((k + r), value, dict[n])
+    else:
+        return {}
+
+    return dict
+
+def parse_to_dict_vals(dictin):
+    dictout = {}
+    for key, value in dictin.items():
+        parse_to_dict_val(key, value, dictout)
+    return dictout
+
 
 @app.route("/", methods=["POST", "GET"])
 def index():
@@ -99,67 +138,48 @@ def save_all_journal():
 
 @app.route("/add_balance", methods=["POST", ])
 def add_balance():
-    forms = request.form.get("balance")
-    balances = json.loads(forms)
-    # print balances['balance']
-    for k, v in balances['balance'].items():
-        if v["MONEY"] == '':
-            v["MONEY"] = 0
-        if v["ACCESSARY"] == '':
-            v["ACCESSARY"] = 0
-        balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=datetime.datetime.now(), MONEY=float(v["MONEY"]),
-                          ACCESSARY=float(v["ACCESSARY"]), CHECKED = 0)
-        db.session.merge(balance)
-    db.session.commit()
-    return render_template("/index.html")
+    if 'file' not in request.files:
+        return jsonify(status="error")
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify(statuc="error", infomation="not select file")
+    if file and allowed_file(file.filename):
+        filename = "finance.zip"
+        file.save(os.path.join(basedir, filename))
+    else:
+        return jsonify(status="error", infomation="file is no allow type")
+
+    form = request.form
+    balances = parse_to_dict_vals(form)
+    if 'balance' in balances:
+        for k, v in balances['balance'].items():
+            if v["MONEY"] == '':
+                v["MONEY"] = 0
+            if v["ACCESSARY"] == '':
+                v["ACCESSARY"] = 0
+            balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=datetime.datetime.now(), MONEY=float(v["MONEY"]),
+                                        ACCESSARY=float(v["ACCESSARY"]), CHECKED=0)
+            db.session.add(balance)
+            db.session.flush()
+            #print balance.ID
+        db.session.commit()
+    return jsonify(status="success")
+
 
 @app.route('/uploadajax', methods=['POST'])
 def upldfile():
     if request.method == 'POST':
+        if 'file' not in request.files:
+            return jsonify(status="error")
         file = request.files['file']
-        if file :
+        if file.filename == '':
+            return jsonify(statuc="error",infomation="not select file")
+        if file and allowed_file(file.filename):
             filename = "finance.zip"
-            file.save("C:\\Users\\dabao\\PycharmProjects\\financeWeb\\app\\finance.zip")
-            #name = request.form.get('name', '')
-            #selectedOption = request.form.get('selectedOption', '')
-            return "success"
-
-    # @app.route('/add',methods=["POST",])
-    # def add():
-    #     form = TodoForm(request.form)
-    #     if form.validate():
-    #         content = form.content.data
-    #         todo = Todo(content=content,time=datetime.now())
-    #         todo.save()
-    #     todos = Todo.objects.order_by('-time')
-    #     return render_template("index.html",todos=todos, form=form)
-    #
-    # @app.route('/done/<string:todo_id>')
-    # def done(todo_id):
-    #     form = TodoForm()
-    #     todo = Todo.objects.get_or_404(id=todo_id)
-    #     todo.status = 1
-    #     todo.save()
-    #     todos = Todo.objects.order_by('-time')
-    #     return render_template("index.html", todos=todos, form=form)
-    #
-    # @app.route('/undone/<string:todo_id>')
-    # def undone(todo_id):
-    #     form = TodoForm()
-    #     todo = Todo.objects.get_or_404(id=todo_id)
-    #     todo.status = 0
-    #     todo.save()
-    #     todos = Todo.objects.order_by('-time')
-    #     return render_template("index.html", todos=todos, form=form)
-    #
-    # @app.route('/delete/<string:todo_id>')
-    # def delete(todo_id):
-    #     form = TodoForm()
-    #     todo = Todo.objects.get_or_404(id=todo_id)
-    #     todo.delete()
-    #     todos = Todo.objects.order_by('-time')
-    #     return render_template("index.html", todos=todos, form=form)
-
+            file.save(os.path.join(basedir, filename))
+            return jsonify(status="suucess")
+        else:
+            return jsonify(status="error",infomation="file is no allow type")
 
 @app.route('/favicon.ico')
 def favicon():
