@@ -151,11 +151,24 @@ def add_balance():
     if file and allowed_file(file.filename):
         filename = "finance.zip"
         file.save(os.path.join(basedir, filename))
+        filename = './app/static/upload/finance.zip'
+        filedir = './app/static/upload/data'
+        r = zipfile.is_zipfile(filename)
+        result = dict()
+        if r:
+            fz = zipfile.ZipFile(filename, 'r')
+            for file in fz.namelist():
+                fz.extract(file, filedir)
+            fz.close()
+        else:
+            return jsonify(static="error", message="not zip file")
     else:
         return jsonify(status="error", infomation="file is no allow type")
 
     form = request.form
     balances = parse_to_dict_vals(form)
+    notexist = []
+    erroraccount = []
     if 'balance' in balances:
         for k, v in balances['balance'].items():
             if v["MONEY"] == '':
@@ -163,22 +176,30 @@ def add_balance():
             if v["ACCESSARY"] == '':
                 v["ACCESSARY"] = 0
             account = FINANCIAL_ACCOUNT.query.filter_by(ID=int(k)).first()
+
             if account:
-                balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=datetime.datetime.now(),
-                                            MONEY=float(v["MONEY"]),
-                                            ACCESSARY=float(v["ACCESSARY"]), CHECKED=0)
-                db.session.add(balance)
-                db.session.flush()
                 if DATA.has_key(account.SHORT_NAME):
-                    finance_data = Finance_data(filename=DATA[account.SHORT_NAME]["filename"],
+                    filename = "./app/static/upload/data/" + DATA[account.SHORT_NAME]["filename"]
+                    if os.path.exists(filename):
+                        balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=datetime.datetime.now(),
+                                                    MONEY=float(v["MONEY"]),
+                                                    ACCESSARY=float(v["ACCESSARY"]), CHECKED=0)
+                        db.session.add(balance)
+                        db.session.flush()
+                        finance_data = Finance_data(filename=DATA[account.SHORT_NAME]["filename"],
                                                  path="./app/static/upload/data/", account_id=account.ID,
                                                  balance_id=balance.ID)
-                    finance_data.save_journal()
+                        finance_data.save_journal()
+                    else:
+                        notexist.append(account.SHORT_NAME)
                 else:
-                    pass
+                    erroraccount.append(int(k))
                     # print balance.ID
         db.session.commit()
-    return jsonify(status="success")
+        shutil.rmtree("./app/static/upload/data")
+        newfilename = "./app/static/upload/" + time.strftime("%Y%m%d%H%M%S", time.localtime(time.time())) + ".zip"
+        shutil.move("./app/static/upload/finance.zip", newfilename)
+    return jsonify(status="success",notexist=notexist,erroraccount=erroraccount)
 
 
 @app.route('/uploadajax', methods=['POST'])

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import csv
 
+import datetime
 import xlrd
 
 # ALI0577.csv ALI0677.csv ALI7789.csv
@@ -51,7 +52,7 @@ CQADATAHEAD = {
 }
 
 CQCDATAHEAD = {
-    "入账日期": "DATE",
+    "交易日期": "DATE",
     "交易金额": "MONEY",
     "交易摘要": "REMARK"
 }
@@ -161,7 +162,7 @@ def cqd_data_format(content):
 
 
 def cqc_start_check(data):
-    return 1
+    return data == "交易日期"
 
 
 def cqc_stop_check(data):
@@ -170,8 +171,17 @@ def cqc_stop_check(data):
 
 def cqc_data_format(content):
     for line in content:
-        line["MONEY"] = float(line["MONEY"].replace("元", "").replace(",", ""))
-        line["DATE"] = str(line["DATE"])[0:4] + "-" + str(line["DATE"])[4:6] + "-" + str(line["DATE"])[6:8]
+        line["MONEY"] = float(str(line["MONEY"]).replace("元", "").replace(",", ""))
+        if int(line["DATE"]) < 10000:
+            month = int(int(line["DATE"]) / 100)
+            now = datetime.datetime.now()
+            year = now.year
+            if now.month < month:
+                year = year - 1
+            line["DATE"]  = str(year) + str(month) + str(int(line["DATE"]) - month * 100)
+        else:
+            line["DATE"] = str(line["DATE"])[0:4] + "-" + str(line["DATE"])[4:6] + "-" + str(line["DATE"])[6:8]
+
 
 
 
@@ -282,9 +292,9 @@ class Finance(object):
             self.filecontent = self.file.sheet_by_index(0)
 
     def close_file(self):
-        if self.file == 'csv':
+        if self.type == 'csv':
             self.file.close()
-        elif self.file == 'excel':
+        elif self.type == 'excel':
             self.file.release_resources()
 
     def get_table_head_csv(self, checker):

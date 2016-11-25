@@ -67,12 +67,12 @@ def save_from_zip():
     for account in financial_accounts:
         if DATA.has_key(account.SHORT_NAME):
             finance_datas = Finance_data(filename=DATA[account.SHORT_NAME]["filename"],
-                                         path="./app/static/upload/data/", account_id=account.ID)
-            finance_datas.save_journal()
+                                         path="./app/static/upload/data/", account_id=account.ID,balance_id=10)
+            #finance_datas.save_journal()
         else:
             print "not", account.SHORT_NAME
     print time.time() - starttime
-    shutil.move("./app/static/upload/finance.zip", "./app/static/upload/finance1.zip")
+    #shutil.move("./app/static/upload/finance.zip", "./app/static/upload/finance1.zip")
 
 
 @manager.command
