@@ -23,6 +23,9 @@ var FinanceItem = React.createClass({
                     <td className="col-sm-2">
                         {updateAccount}
                     </td>
+                    <td>
+                        <input type="checkbox" className="form-control input-sm" name={"balance[" + account.ID  + "][LACKd]"}/>
+                    </td>
             </tr>
         )
     }

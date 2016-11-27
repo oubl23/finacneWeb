@@ -16,6 +16,7 @@ var FinanceTable = React.createClass({
                         <th>上次对账时间</th>
                         <th>余额/剩余额度</th>
                         <th>额度/附属理财</th>
+                        <th>无交易记录</th>
                     </tr>
                 </thead>
                 <tbody>

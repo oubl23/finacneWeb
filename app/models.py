@@ -59,9 +59,8 @@ class FINANCIAL_BALANCE(db.Model):
 
 
 class Finance_data():
-    def __init__(self, filename, path, account_id,balance_id):
+    def __init__(self, filename, path, account_id):
         self.financial_journal_all = []
-        self.balance_id = balance_id
         self.account = filename
         self.finance = Finance(filename=filename, path=path, nameid=account_id)
         self.content = self.finance.content
@@ -74,11 +73,11 @@ class Finance_data():
                                                   DATE=line["DATE"], JOB_ID="0", REASON="", ACCOUNT_ID=line["ACCOUNT"])
             self.financial_journal_all.append(financial_journal)
 
-    def save_journal(self):
+    def save_journal(self, balance_id):
         # pass
         # db.session.bulk_save_objects(self.financial_journal_all)
         for line in self.content:
-            res = get_or_create(db.session, FINANCIAL_JOURNAL,self.balance_id, REMARK=line["REMARK"], MONEY=line["MONEY"],
+            res = get_or_create(db.session, FINANCIAL_JOURNAL,balance_id, REMARK=line["REMARK"], MONEY=line["MONEY"],
                                 DATE=line["DATE"],
                                 JOB_ID="0", REASON="", ACCOUNT_ID=line["ACCOUNT"])
             # db.session.query(FINANCIAL_BALANCE).join(FINANCIAL_ACCOUNT.SHORT_NAME, FINANCIAL_BALANCE.ACCOUNT_ID == FINANCIAL_ACCOUNT.ID)
