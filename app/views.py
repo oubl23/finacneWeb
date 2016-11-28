@@ -16,18 +16,18 @@ from models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL, Finance_data, FINANCIAL
 basedir = os.path.abspath(os.path.dirname(__file__)) + "/static/upload/"
 ALLOWED_EXTENSIONS = set(['zip'])
 DATA = {
-    "ALI0577": {"filename": "ALI0577.csv"},
-    "ALI0677": {"filename": "ALI0677.csv"},
-    "ALI7789": {"filename": "ALI7789.csv"},
-    "CMC5102": {"filename": "CMC5102.csv"},
-    "CMD0091": {"filename": "CMD0091.csv"},
-    "ICC8451": {"filename": "ICC8451.csv"},
-    "CQA7074": {"filename": "CQA7074.xls"},
-    "CQD0403": {"filename": "CQD0403.xls"},
-    "CQD3554": {"filename": "CQD3554.xls"},
-    "CQC1254": {"filename": "CQC1254.xlsx"},
-    "SWU7814": {"filename": "SWU7814.xlsx"},
-    "ABC3829": {"filename": "ABC3829.xlsx"}
+    "ALI0577": {"filename": ["ALI0577.csv"]},
+    "ALI0677": {"filename": ["ALI0677.csv"]},
+    "ALI7789": {"filename": ["ALI7789.csv"]},
+    "CMC5102": {"filename": ["CMC5102.csv"]},
+    "CMD0091": {"filename": ["CMD0091.csv"]},
+    "ICC8451": {"filename": ["ICC8451.csv"]},
+    "CQA7074": {"filename": ["CQA7074.xls", "CQA7074.xlsx"]},
+    "CQD0403": {"filename": ["CQD0403.xls", "CQD0403.xlsx"]},
+    "CQD3554": {"filename": ["CQD3554.xls", "CQD3554.xlsx"]},
+    "CQC1254": {"filename": ["CQC1254.xls", "CQC1254.xlsx"]},
+    "SWU7814": {"filename": ["SWU7814.xls", "SWU7814.xlsx"]},
+    "ABC3829": {"filename": ["ABC3829.xls", "ABC3829.xlsx"]}
 }
 
 
@@ -158,7 +158,6 @@ def add_balance():
         filename = './app/static/upload/finance.zip'
         filedir = './app/static/upload/data'
         r = zipfile.is_zipfile(filename)
-        result = dict()
         if r:
             fz = zipfile.ZipFile(filename, 'r')
             for file in fz.namelist():
@@ -184,16 +183,22 @@ def add_balance():
         if not DATA.has_key(financial_account.SHORT_NAME):
             message += financial_account.SHORT_NAME
         else:
-            filename_check = "./app/static/upload/data/" + DATA[financial_account.SHORT_NAME]["filename"]
             if str(financial_account.ID) not in balances['balance'] and "LACK":
                 return jsonify(status="error",message="submit form error")
 
             if "LACK" in balances['balance'][str(financial_account.ID)] and balances['balance'][str(financial_account.ID)]["LACK"] == "on" :
                 continue
             else:
-                if not os.path.exists(filename_check):
-                    message += financial_account.SHORT_NAME+","
-                add_balances[financial_account.ID] = balances['balance'][str(financial_account.ID)]
+                filename = ""
+                for name in DATA[financial_account.SHORT_NAME]["filename"]:
+                    filename_check = "./app/static/upload/data/" + name
+                    if  os.path.exists(filename_check):
+                        filename = financial_account.SHORT_NAME + ","
+                        add_balances[financial_account.ID] = balances['balance'][str(financial_account.ID)]
+
+                        break
+                if filename == "":
+                    message += financial_account.SHORT_NAME + ","
 
     if message != '':
         return jsonify(status="error",message="submit file error "+message)
