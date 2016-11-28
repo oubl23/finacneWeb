@@ -212,27 +212,27 @@ def swu_data_format(content):
 
 
 DATA = {
-    "ALI0577.csv": {"filename": "ALI0577.csv", "type": "csv", "start": ali_start_check, "stop": ali_stop_check,
+    "ALI0577": {"filename": "ALI0577.csv", "type": "csv", "start": ali_start_check, "stop": ali_stop_check,
                     "format": ali_data_format, "DATA": ALIDATAHEAD},
-    "ALI0677.csv": {"filename": "ALI0677.csv", "type": "csv", "start": ali_start_check, "stop": ali_stop_check,
+    "ALI0677": {"filename": "ALI0677.csv", "type": "csv", "start": ali_start_check, "stop": ali_stop_check,
                     "format": ali_data_format, "DATA": ALIDATAHEAD},
-    "ALI7789.csv": {"filename": "ALI7789.csv", "type": "csv", "start": ali_start_check, "stop": ali_stop_check,
+    "ALI7789": {"filename": "ALI7789.csv", "type": "csv", "start": ali_start_check, "stop": ali_stop_check,
                     "format": ali_data_format, "DATA": ALIDATAHEAD},
-    "CMC5102.csv": {"filename": "CMC5102.csv", "type": "csv", "start": cmc_start_check, "stop": cmc_stop_check,
+    "CMC5102": {"filename": "CMC5102.csv", "type": "csv", "start": cmc_start_check, "stop": cmc_stop_check,
                     "format": cmc_data_format, "DATA": CMCDATAHEAD},
-    "CMD0091.csv": {"filename": "CMD0091.csv", "type": "csv", "start": cmd_start_check, "stop": cmd_stop_check,
+    "CMD0091": {"filename": "CMD0091.csv", "type": "csv", "start": cmd_start_check, "stop": cmd_stop_check,
                     "format": cmd_data_format, "DATA": CMDDATAHEAD},
-    "ICC8451.csv": {"filename": "ICC8451.csv", "type": "csv", "start": icc_start_check, "stop": icc_stop_check,
+    "ICC8451": {"filename": "ICC8451.csv", "type": "csv", "start": icc_start_check, "stop": icc_stop_check,
                     "format": icc_data_format, "DATA": ICCDATAHEAD},
-    "CQA7074.xls": {"filename": "CQA7074.xls", "type": "excel", "start": cqa_start_check, "stop": cqa_stop_check,
+    "CQA7074": {"filename": "CQA7074.xls", "type": "excel", "start": cqa_start_check, "stop": cqa_stop_check,
                     "format": cqa_data_format, "DATA": CQADATAHEAD},
-    "CQD0403.xls": {"filename": "CQD0403.xls", "type": "excel", "start": cqd_start_check, "stop": cqd_stop_check,
+    "CQD0403": {"filename": "CQD0403.xls", "type": "excel", "start": cqd_start_check, "stop": cqd_stop_check,
                     "format": cqd_data_format, "DATA": CQDDATAHEAD},
-    "CQD3554.xls": {"filename": "CQD3354.xls", "type": "excel", "start": cqd_start_check, "stop": cqd_stop_check,
+    "CQD3554": {"filename": "CQD3354.xls", "type": "excel", "start": cqd_start_check, "stop": cqd_stop_check,
                     "format": cqd_data_format, "DATA": CQDDATAHEAD, "fix": 1},
-    "CQC1254.xlsx": {"filename": "CQC1254.xlsx", "type": "excel", "start": cqc_start_check, "stop": cqc_stop_check,
+    "CQC1254": {"filename": "CQC1254.xlsx", "type": "excel", "start": cqc_start_check, "stop": cqc_stop_check,
                      "format": cqc_data_format, "DATA": CQCDATAHEAD},
-    "SWU7814.xlsx": {"filename": "SWU7814.xlsx", "type": "excel", "start": swu_start_check, "stop": swu_stop_check,
+    "SWU7814": {"filename": "SWU7814.xlsx", "type": "excel", "start": swu_start_check, "stop": swu_stop_check,
                      "format": swu_data_format, "DATA": SWUDATAHEAD},
 }
 
@@ -253,7 +253,7 @@ class Finance(object):
         self.filecontent = ''
         self.content = []
         self.filename = filename
-        self.path = path + filename
+        self.path = path
         fixtable = 0
         if DATA.has_key(filename):
             self.type = DATA[filename]["type"]
@@ -366,6 +366,6 @@ class Finance(object):
 
 
 if __name__ == "__main__":
-    finance = Finance("CQC1254.xlsx", "CMC5102", "./static/upload/data/")
+    finance = Finance("CQC1254", "CMC5102", "./static/upload/data/CQC1254.xlsx")
     for content in finance.content:
         print content

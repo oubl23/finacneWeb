@@ -6,6 +6,7 @@ import zipfile
 from flask_script import Manager
 
 from app import app, db
+from app.financeControl import Finance
 from app.models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL, Finance_data, FINANCIAL_BALANCE
 
 manager = Manager(app)
@@ -145,6 +146,37 @@ def test_buf():
     else:
         print 0
 
+@manager.command
+def test_query():
+    finance = Finance("ALI0577", "10", "./app/static/upload/data/ALI0577.csv")
+    data = get_and_check(db.session, FINANCIAL_JOURNAL, finance.content)
+    for line in data:
+        print line
+
+def get_and_check(session, model, content):
+    data = []
+    for line in content:
+        res = get_or_create(session, model,10, REMARK=line["REMARK"], MONEY=line["MONEY"], DATE=line["DATE"], JOB_ID="0", REASON="",
+                    ACCOUNT_ID=line["ACCOUNT"])
+        if  res:
+            data.append(line)
+    return data
+
+
+def query(session, model, **kwargs):
+    instance = session.query(model).filter_by(**kwargs).first()
+    if instance:
+        return False
+    else:
+        return True
+
+def get_or_create(session, model, balance_id, **kwargs):
+    instance = session.query(model).filter_by(**kwargs).first()
+    if instance:
+        return 0
+    else:
+        instance = model(BALANCE_ID = balance_id,**kwargs)
+        session.add(instance)
 
 if __name__ == '__main__':
     manager.run()

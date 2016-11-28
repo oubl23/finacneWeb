@@ -1,5 +1,4 @@
 import datetime
-import json
 import os
 import re
 import shutil
@@ -11,7 +10,8 @@ from flask import request
 from flask import send_from_directory
 
 from app import app, db
-from models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL, Finance_data, FINANCIAL_BALANCE
+from app.financeControl import Finance
+from models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL, FINANCIAL_BALANCE
 
 basedir = os.path.abspath(os.path.dirname(__file__)) + "/static/upload/"
 ALLOWED_EXTENSIONS = set(['zip'])
@@ -88,7 +88,6 @@ def index():
 
 @app.route("/list_account")
 def list_account():
-    # finances = FINANCIAL_ACCOUNT.query.all()
     finances = db.session.query(FINANCIAL_ACCOUNT, db.func.max(FINANCIAL_BALANCE.DATETIME)).outerjoin(FINANCIAL_BALANCE,
                                                                                                       FINANCIAL_ACCOUNT.ID == FINANCIAL_BALANCE.ACCOUNT_ID).add_columns(
         FINANCIAL_BALANCE.MONEY).group_by(
@@ -111,38 +110,38 @@ def save_journal():
     db.commit()
 
 
-@app.route("/save_all_journal")
-def save_all_journal():
-    filename = './app/static/upload/finance.zip'
-    filedir = './app/static/upload/data'
-    r = zipfile.is_zipfile(filename)
-    result = dict()
-    if r:
-        fz = zipfile.ZipFile(filename, 'r')
-        for file in fz.namelist():
-            fz.extract(file, filedir)
-        fz.close()
-    else:
-        return jsonify(static="error", message="not zip file")
-    financial_accounts = FINANCIAL_ACCOUNT().query.all()
-
-    noexist = []
-    for account in financial_accounts:
-        if DATA.has_key(account.SHORT_NAME):
-            try:
-                finance_datas = Finance_data(filename=DATA[account.SHORT_NAME]["filename"],
-                                         path="./app/static/upload/data/", account_id=account.ID)
-            except:
-                pass
-            finance_datas.save_journal()
-        else:
-            noexist.append(account.SHORT_NAME)
-
-    shutil.rmtree("./app/static/upload/data")
-    newfilename = "./app/static/upload/" + time.strftime("%Y%m%d%H%M%S", time.localtime(time.time())) + ".zip"
-    shutil.move("./app/static/upload/finance.zip", newfilename)
-
-    return jsonify(status="success", noexist=json.dumps(noexist))
+# @app.route("/save_all_journal")
+# def save_all_journal():
+#     filename = './app/static/upload/finance.zip'
+#     filedir = './app/static/upload/data'
+#     r = zipfile.is_zipfile(filename)
+#     result = dict()
+#     if r:
+#         fz = zipfile.ZipFile(filename, 'r')
+#         for file in fz.namelist():
+#             fz.extract(file, filedir)
+#         fz.close()
+#     else:
+#         return jsonify(static="error", message="not zip file")
+#     financial_accounts = FINANCIAL_ACCOUNT().query.all()
+#
+#     noexist = []
+#     for account in financial_accounts:
+#         if DATA.has_key(account.SHORT_NAME):
+#             try:
+#                 finance_datas = Finance_data(filename=DATA[account.SHORT_NAME]["filename"],
+#                                          path="./app/static/upload/data/", account_id=account.ID)
+#             except:
+#                 pass
+#             finance_datas.save_journal()
+#         else:
+#             noexist.append(account.SHORT_NAME)
+#
+#     shutil.rmtree("./app/static/upload/data")
+#     newfilename = "./app/static/upload/" + time.strftime("%Y%m%d%H%M%S", time.localtime(time.time())) + ".zip"
+#     shutil.move("./app/static/upload/finance.zip", newfilename)
+#
+#     return jsonify(status="success", noexist=json.dumps(noexist))
 
 
 @app.route("/add_balance", methods=["POST", ])
@@ -179,29 +178,38 @@ def add_balance():
 
     message = ""
     add_balances = dict()
+    finance_content = dict()
     for financial_account in financial_accounts:
         if not DATA.has_key(financial_account.SHORT_NAME):
             message += financial_account.SHORT_NAME
         else:
             if str(financial_account.ID) not in balances['balance'] and "LACK":
-                return jsonify(status="error",message="submit form error")
+                return jsonify(status="error", message="submit form error")
 
-            if "LACK" in balances['balance'][str(financial_account.ID)] and balances['balance'][str(financial_account.ID)]["LACK"] == "on" :
+            if "LACK" in balances['balance'][str(financial_account.ID)] and \
+                            balances['balance'][str(financial_account.ID)]["LACK"] == "on":
                 continue
             else:
                 filename = ""
                 for name in DATA[financial_account.SHORT_NAME]["filename"]:
                     filename_check = "./app/static/upload/data/" + name
-                    if  os.path.exists(filename_check):
-                        filename = financial_account.SHORT_NAME + ","
+                    if os.path.exists(filename_check):
+                        filename = financial_account.SHORT_NAME
                         add_balances[financial_account.ID] = balances['balance'][str(financial_account.ID)]
-
+                        try:
+                            finance = Finance(financial_account.SHORT_NAME, financial_account.ID, filename_check)
+                        except Exception, e:
+                            app.logger.debug(Exception, e)
+                            app.logger.error("conver to " + filename_check + "data error")
+                            continue
+                        finance_content[financial_account.ID] = finance.content
                         break
                 if filename == "":
                     message += financial_account.SHORT_NAME + ","
 
-    if message != '':
-        return jsonify(status="error",message="submit file error "+message)
+    # if message != '':
+    #     app.logger.error( message + "file error")
+    #     return jsonify(status="error",message="submit file error "+message)
 
 
     get_data_error = ""
@@ -213,33 +221,45 @@ def add_balance():
         account = FINANCIAL_ACCOUNT.query.filter_by(ID=int(k)).first()
 
         if account:
-            if DATA.has_key(account.SHORT_NAME):
-                filename = "./app/static/upload/data/" + DATA[account.SHORT_NAME]["filename"]
-                if os.path.exists(filename):
-                    try:
-                        finance_data = Finance_data(filename=DATA[account.SHORT_NAME]["filename"],
-                                                    path="./app/static/upload/data/", account_id=account.ID)
-                    except :
-                        get_data_error += account.SHORT_NAME + ""
-                        continue
-                    balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=datetime.datetime.now(),
-                                                MONEY=float(v["MONEY"]),
-                                                ACCESSARY=float(v["ACCESSARY"]), CHECKED=0)
-                    db.session.add(balance)
-                    db.session.flush()
-
-                    finance_data.save_journal(balance_id=balance.ID)
-                else:
-                    notexist.append(account.SHORT_NAME)
-            else:
-                erroraccount.append(int(k))
-                # print balance.ID
+            if financial_account.has_key(int(account.ID)):
+                balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=datetime.datetime.now(),
+                                            MONEY=float(v["MONEY"]),
+                                            ACCESSARY=float(v["ACCESSARY"]), CHECKED=0)
+                db.session.add(balance)
+                db.session.flush()
+                for line in financial_account[int(account.ID)]:
+                    res = get_or_create(db.session, FINANCIAL_JOURNAL, balance.ID, REMARK=line["REMARK"],
+                                        MONEY=line["MONEY"],
+                                        DATE=line["DATE"],
+                                        JOB_ID="0", REASON="", ACCOUNT_ID=line["ACCOUNT"])
     db.session.commit()
     shutil.rmtree("./app/static/upload/data")
-    newfilename = "./app/static/upload/" + time.strftime("%Y%m%d%H%M%S", time.localtime(time.time())) + ".zip"
+    newfilename = "./app/static/upload/" + time.strftime("%Y%m%d%H%M%S",
+                                                         time.localtime(time.time())) + ".zip"
     shutil.move("./app/static/upload/finance.zip", newfilename)
-
-    return jsonify(status="success", message = "import balance error " + get_data_error)
+    return jsonify(status="success", message="import balance error " + get_data_error)
+    #
+    # if DATA.has_key(account.SHORT_NAME):
+    #     filename = "./app/static/upload/data/" + DATA[account.SHORT_NAME]["filename"]
+    #     if os.path.exists(filename):
+    #         try:
+    #             finance_data = Finance_data(filename=DATA[account.SHORT_NAME]["filename"],
+    #                                         path="./app/static/upload/data/", account_id=account.ID)
+    #         except :
+    #             get_data_error += account.SHORT_NAME + ""
+    #             continue
+    #         balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=datetime.datetime.now(),
+    #                                     MONEY=float(v["MONEY"]),
+    #                                     ACCESSARY=float(v["ACCESSARY"]), CHECKED=0)
+    #         db.session.add(balance)
+    #         db.session.flush()
+    #
+    #         finance_data.save_journal(balance_id=balance.ID)
+    #     else:
+    #         notexist.append(account.SHORT_NAME)
+    # else:
+    #     erroraccount.append(int(k))
+    #     # print balance.ID
 
 
 # @app.route('/uploadajax', methods=['POST'])
@@ -266,4 +286,30 @@ def favicon():
 
 @app.errorhandler(404)
 def not_found(error):
-    return render_template('404.')
+    return render_template('/404.html')
+
+
+def get_and_check(session, model, content):
+    for line in content:
+        res = query(REMARK=line["REMARK"], MONEY=line["MONEY"], DATE=line["DATE"], JOB_ID="0", REASON="",
+                    ACCOUNT_ID=line["ACCOUNT"])
+        if not res:
+            del(line)
+
+
+def query(session, model, **kwargs):
+    instance = session.query(model).filter_by(**kwargs).first()
+    if instance:
+        return False
+    else:
+        return True
+
+
+def get_or_create(session, model, balance_id, **kwargs):
+    instance = session.query(model).filter_by(**kwargs).first()
+    if instance:
+        return False
+    else:
+        instance = model(BALANCE_ID=balance_id, **kwargs)
+        session.add(instance)
+        return True
