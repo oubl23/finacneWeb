@@ -112,6 +112,7 @@ def save_journal():
 
 @app.route("/add_balance", methods=["POST", ])
 def add_balance():
+    # TODO:hanle if zip contian a fload
     if 'file' not in request.files:
         return jsonify(status="error", message=u"提交文件不是zip格式文件，请重新压缩")
     file = request.files['file']

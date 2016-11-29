@@ -4,7 +4,7 @@ import csv
 
 import datetime
 import xlrd
-
+# TODO: cover bank money to alipay
 # ALI0577.csv ALI0677.csv ALI7789.csv
 ALIDATAHEAD = {
     "交易创建时间": "DATE",
