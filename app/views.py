@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 import os
 import re
@@ -109,48 +110,13 @@ def save_journal():
     db.session.add(journal)
     db.commit()
 
-
-# @app.route("/save_all_journal")
-# def save_all_journal():
-#     filename = './app/static/upload/finance.zip'
-#     filedir = './app/static/upload/data'
-#     r = zipfile.is_zipfile(filename)
-#     result = dict()
-#     if r:
-#         fz = zipfile.ZipFile(filename, 'r')
-#         for file in fz.namelist():
-#             fz.extract(file, filedir)
-#         fz.close()
-#     else:
-#         return jsonify(static="error", message="not zip file")
-#     financial_accounts = FINANCIAL_ACCOUNT().query.all()
-#
-#     noexist = []
-#     for account in financial_accounts:
-#         if DATA.has_key(account.SHORT_NAME):
-#             try:
-#                 finance_datas = Finance_data(filename=DATA[account.SHORT_NAME]["filename"],
-#                                          path="./app/static/upload/data/", account_id=account.ID)
-#             except:
-#                 pass
-#             finance_datas.save_journal()
-#         else:
-#             noexist.append(account.SHORT_NAME)
-#
-#     shutil.rmtree("./app/static/upload/data")
-#     newfilename = "./app/static/upload/" + time.strftime("%Y%m%d%H%M%S", time.localtime(time.time())) + ".zip"
-#     shutil.move("./app/static/upload/finance.zip", newfilename)
-#
-#     return jsonify(status="success", noexist=json.dumps(noexist))
-
-
 @app.route("/add_balance", methods=["POST", ])
 def add_balance():
     if 'file' not in request.files:
-        return jsonify(status="error")
+        return jsonify(status="error", message=u"提交文件不是zip格式文件，请重新压缩")
     file = request.files['file']
     if file.filename == '':
-        return jsonify(status="error", infomation="not select file")
+        return jsonify(status="error", message=u"没有提交文件")
     if file and allowed_file(file.filename):
         filename = "finance.zip"
         file.save(os.path.join(basedir, filename))
@@ -163,28 +129,25 @@ def add_balance():
                 fz.extract(file, filedir)
             fz.close()
         else:
-            return jsonify(status="error", message="not zip file")
+            return jsonify(status="error", message=u"不是合法zip文件")
     else:
-        return jsonify(status="error", infomation="file is no allow type")
+        return jsonify(status="error", infomation=u"提交文件不是zip格式文件，请重新压缩")
 
     form = request.form
     balances = parse_to_dict_vals(form)
-    notexist = []
-    erroraccount = []
     if 'balance' not in balances:
-        return jsonify(status="error", message="form didn't input success")
+        return jsonify(status="error", message="form didn't input message")
 
     financial_accounts = FINANCIAL_ACCOUNT().query.all()
-
     message = ""
     add_balances = dict()
     finance_content = dict()
     for financial_account in financial_accounts:
         if not DATA.has_key(financial_account.SHORT_NAME):
-            message += financial_account.SHORT_NAME
+            return jsonify(status="error", message=u"数据库添加未知银行卡" + financial_account.SHORT_NAME + u"，请联系管理员")
         else:
-            if str(financial_account.ID) not in balances['balance'] and "LACK":
-                return jsonify(status="error", message="submit form error")
+            if str(financial_account.ID) not in balances['balance']:
+                return jsonify(status="error", message=u"提交表单数据错误，请刷新页面")
 
             if "LACK" in balances['balance'][str(financial_account.ID)] and \
                             balances['balance'][str(financial_account.ID)]["LACK"] == "on":
@@ -198,21 +161,24 @@ def add_balance():
                         add_balances[financial_account.ID] = balances['balance'][str(financial_account.ID)]
                         try:
                             finance = Finance(financial_account.SHORT_NAME, financial_account.ID, filename_check)
+                            finance.close_file()
                         except Exception, e:
                             app.logger.debug(Exception, e)
                             app.logger.error("conver to " + filename_check + "data error")
+                            filename = ""
                             continue
                         finance_content[financial_account.ID] = finance.content
                         break
                 if filename == "":
                     message += financial_account.SHORT_NAME + ","
 
-    # if message != '':
-    #     app.logger.error( message + "file error")
-    #     return jsonify(status="error",message="submit file error "+message)
+    if message != '':
+        app.logger.error(message + "file error")
+        clear_zip()
+        return jsonify(status="error", message=u"以下文件未提交或者格式错误，检查文件！可勾选无交易记录跳过该文件:" + message)
 
-
-    get_data_error = ""
+    checktime = datetime.datetime.now()
+    journal_add_count = 0
     for k, v in add_balances.items():
         if v["MONEY"] == '':
             v["MONEY"] = 0
@@ -221,62 +187,24 @@ def add_balance():
         account = FINANCIAL_ACCOUNT.query.filter_by(ID=int(k)).first()
 
         if account:
-            if financial_account.has_key(int(account.ID)):
-                balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=datetime.datetime.now(),
-                                            MONEY=float(v["MONEY"]),
-                                            ACCESSARY=float(v["ACCESSARY"]), CHECKED=0)
-                db.session.add(balance)
-                db.session.flush()
-                for line in financial_account[int(account.ID)]:
-                    res = get_or_create(db.session, FINANCIAL_JOURNAL, balance.ID, REMARK=line["REMARK"],
-                                        MONEY=line["MONEY"],
-                                        DATE=line["DATE"],
-                                        JOB_ID="0", REASON="", ACCOUNT_ID=line["ACCOUNT"])
+            balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=checktime,
+                                        MONEY=float(v["MONEY"]),
+                                        ACCESSARY=float(v["ACCESSARY"]), CHECKED=0)
+            db.session.add(balance)
+            db.session.flush()
+            available_content = get_and_check(db.session, FINANCIAL_JOURNAL, balance.ID,
+                                              finance_content[int(account.ID)])
+
+            if available_content:
+                journal_add_count += list.count(available_content)
+                db.session.bulk_save_objects(available_content)
+        else:
+            return jsonify(status="error", message= u"数据库中没有ID为"+ k + u"的账户请重试" )
+
     db.session.commit()
-    shutil.rmtree("./app/static/upload/data")
-    newfilename = "./app/static/upload/" + time.strftime("%Y%m%d%H%M%S",
-                                                         time.localtime(time.time())) + ".zip"
-    shutil.move("./app/static/upload/finance.zip", newfilename)
-    return jsonify(status="success", message="import balance error " + get_data_error)
-    #
-    # if DATA.has_key(account.SHORT_NAME):
-    #     filename = "./app/static/upload/data/" + DATA[account.SHORT_NAME]["filename"]
-    #     if os.path.exists(filename):
-    #         try:
-    #             finance_data = Finance_data(filename=DATA[account.SHORT_NAME]["filename"],
-    #                                         path="./app/static/upload/data/", account_id=account.ID)
-    #         except :
-    #             get_data_error += account.SHORT_NAME + ""
-    #             continue
-    #         balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=datetime.datetime.now(),
-    #                                     MONEY=float(v["MONEY"]),
-    #                                     ACCESSARY=float(v["ACCESSARY"]), CHECKED=0)
-    #         db.session.add(balance)
-    #         db.session.flush()
-    #
-    #         finance_data.save_journal(balance_id=balance.ID)
-    #     else:
-    #         notexist.append(account.SHORT_NAME)
-    # else:
-    #     erroraccount.append(int(k))
-    #     # print balance.ID
-
-
-# @app.route('/uploadajax', methods=['POST'])
-# def upldfile():
-#     if request.method == 'POST':
-#         if 'file' not in request.files:
-#             return jsonify(status="error")
-#         file = request.files['file']
-#         if file.filename == '':
-#             return jsonify(statuc="error", infomation="not select file")
-#         if file and allowed_file(file.filename):
-#             filename = "finance.zip"
-#             file.save(os.path.join(basedir, filename))
-#             return jsonify(status="suucess")
-#         else:
-#             return jsonify(status="error", infomation="file is no allow type")
-
+    clear_zip()
+    message = u"添加" + str(journal_add_count) + u"条资产记录"
+    return jsonify(status="success", message=message)
 
 @app.route('/favicon.ico')
 def favicon():
@@ -289,12 +217,18 @@ def not_found(error):
     return render_template('/404.html')
 
 
-def get_and_check(session, model, content):
+def get_and_check(session, model, balance_id, content):
+    data = []
     for line in content:
-        res = query(REMARK=line["REMARK"], MONEY=line["MONEY"], DATE=line["DATE"], JOB_ID="0", REASON="",
+        res = query(session, model, REMARK=line["REMARK"], MONEY=line["MONEY"], DATE=line["DATE"], JOB_ID="0",
+                    REASON="",
                     ACCOUNT_ID=line["ACCOUNT"])
-        if not res:
-            del(line)
+        if res:
+            financial_journal = FINANCIAL_JOURNAL(REMARK=line["REMARK"], MONEY=line["MONEY"],
+                                                  DATE=line["DATE"], JOB_ID="0", REASON="", ACCOUNT_ID=line["ACCOUNT"],
+                                                  BALANCE_ID=balance_id)
+            data.append(financial_journal)
+    return data
 
 
 def query(session, model, **kwargs):
@@ -313,3 +247,10 @@ def get_or_create(session, model, balance_id, **kwargs):
         instance = model(BALANCE_ID=balance_id, **kwargs)
         session.add(instance)
         return True
+
+
+def clear_zip():
+    shutil.rmtree("./app/static/upload/data")
+    newfilename = "./app/static/upload/" + time.strftime("%Y%m%d%H%M%S",
+                                                         time.localtime(time.time())) + ".zip"
+    shutil.move("./app/static/upload/finance.zip", newfilename)

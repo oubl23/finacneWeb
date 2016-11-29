@@ -35,9 +35,12 @@ var Finance = React.createClass({
         }).done(function (resp) {
             if(resp.status == "success"){
                 $("form#account")[0].reset();
-                $("#message").html("success");
+                $("#message").html(resp.message);
                 $("#message").addClass("alert alert-success");
                 this.listFinance();
+            }else{
+                $("#message").html(resp.message);
+                $("#message").addClass("alert alert-danger");
             }
             waitingDialog.hide();
         }.bind(this))

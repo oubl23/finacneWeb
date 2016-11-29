@@ -178,7 +178,7 @@ def cqc_data_format(content):
             year = now.year
             if now.month < month:
                 year = year - 1
-            line["DATE"]  = str(year) + str(month) + str(int(line["DATE"]) - month * 100)
+            line["DATE"]  = str(year) + "-" + str(month) + "-" + str(int(line["DATE"]) - month * 100)
         else:
             line["DATE"] = str(line["DATE"])[0:4] + "-" + str(line["DATE"])[4:6] + "-" + str(line["DATE"])[6:8]
 
@@ -264,7 +264,7 @@ class Finance(object):
             if DATA[filename].has_key("fix"):
                 fixtable = DATA[filename]["fix"]
 
-        self.__open_file()
+        self.__open_file__()
         self.name_id = nameid
 
         if self.type == "csv":
@@ -283,7 +283,7 @@ class Finance(object):
 
         self.data_format(self.content)
 
-    def __open_file(self):
+    def __open_file__(self):
         if self.type == "csv":
             self.file = file(self.path, 'rb')
             self.filecontent = csv.reader(self.file)

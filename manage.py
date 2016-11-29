@@ -150,13 +150,14 @@ def test_buf():
 def test_query():
     finance = Finance("ALI0577", "10", "./app/static/upload/data/ALI0577.csv")
     data = get_and_check(db.session, FINANCIAL_JOURNAL, finance.content)
+    db.session.commit()
     for line in data:
         print line
 
 def get_and_check(session, model, content):
     data = []
     for line in content:
-        res = get_or_create(session, model,10, REMARK=line["REMARK"], MONEY=line["MONEY"], DATE=line["DATE"], JOB_ID="0", REASON="",
+        res = query(session, model, REMARK=line["REMARK"], MONEY=line["MONEY"], DATE=line["DATE"], JOB_ID="0", REASON="",
                     ACCOUNT_ID=line["ACCOUNT"])
         if  res:
             data.append(line)
