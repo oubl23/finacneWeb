@@ -154,6 +154,12 @@ def test_query():
     for line in data:
         print line
 
+@manager.command
+def list_journal():
+    finacnes = FINANCIAL_JOURNAL.query.all()
+    for line in finacnes:
+        print line.tojson()
+
 def get_and_check(session, model, content):
     data = []
     for line in content:

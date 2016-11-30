@@ -41,7 +41,7 @@ class FINANCIAL_JOURNAL(db.Model):
             'ID': str(self.ID),
             'MONEY': self.MONEY,
             'REMARK': self.REMARK,
-            'DATA': self.DATA,
+            'DATE': self.DATE,
             'REASON': self.REASON,
             'JOB_ID': self.JOB_ID,
             'ACCOUNT_ID': self.ACCOUNT_ID

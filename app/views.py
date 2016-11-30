@@ -74,18 +74,23 @@ def parse_to_dict_vals(dictin):
 
 @app.route("/", methods=["POST", "GET"])
 def index():
-    finances = db.session.query(FINANCIAL_ACCOUNT, db.func.max(FINANCIAL_BALANCE.DATETIME)).outerjoin(FINANCIAL_BALANCE,
-                                                                                                      FINANCIAL_ACCOUNT.ID == FINANCIAL_BALANCE.ACCOUNT_ID).add_columns(
-        FINANCIAL_BALANCE.MONEY).group_by(
-        FINANCIAL_BALANCE.ACCOUNT_ID).all()
-    accounts = []
-    for finance in finances:
-        account = finance.FINANCIAL_ACCOUNT.tojson()
-        account["DATETIME"] = str(finance[1])
-        account["MONEY"] = finance[2]
-        accounts.append(account)
-    return render_template("index.html", accounts=accounts)
+    return render_template("index.html")
+# def index():
+#     finances = db.session.query(FINANCIAL_ACCOUNT, db.func.max(FINANCIAL_BALANCE.DATETIME)).outerjoin(FINANCIAL_BALANCE,
+#                                                                                                       FINANCIAL_ACCOUNT.ID == FINANCIAL_BALANCE.ACCOUNT_ID).add_columns(
+#         FINANCIAL_BALANCE.MONEY).group_by(
+#         FINANCIAL_BALANCE.ACCOUNT_ID).all()
+#     accounts = []
+#     for finance in finances:
+#         account = finance.FINANCIAL_ACCOUNT.tojson()
+#         account["DATETIME"] = str(finance[1])
+#         account["MONEY"] = finance[2]
+#         accounts.append(account)
+#     return render_template("index.html", accounts=accounts)
 
+@app.route("/journal/", methods=["POST", "GET"])
+def journal():
+    return render_template("journal.html")
 
 @app.route("/list_account")
 def list_account():
@@ -197,7 +202,7 @@ def add_balance():
                                               finance_content[int(account.ID)])
 
             if available_content:
-                journal_add_count += list.count(available_content)
+                journal_add_count += len(available_content)
                 db.session.bulk_save_objects(available_content)
         else:
             return jsonify(status="error", message= u"数据库中没有ID为"+ k + u"的账户请重试" )
@@ -206,6 +211,12 @@ def add_balance():
     clear_zip()
     message = u"添加" + str(journal_add_count) + u"条资产记录"
     return jsonify(status="success", message=message)
+
+@app.route('/list_journal')
+def list_journal():
+    journals = FINANCIAL_JOURNAL.query.all()
+    return jsonify(status="success", journals = [journal.tojson() for journal in journals])
+
 
 @app.route('/favicon.ico')
 def favicon():

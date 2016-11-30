@@ -227,7 +227,7 @@ DATA = {
     "CQA7074": {"filename": "CQA7074.xls", "type": "excel", "start": cqa_start_check, "stop": cqa_stop_check,
                     "format": cqa_data_format, "DATA": CQADATAHEAD},
     "CQD0403": {"filename": "CQD0403.xls", "type": "excel", "start": cqd_start_check, "stop": cqd_stop_check,
-                    "format": cqd_data_format, "DATA": CQDDATAHEAD},
+                    "format": cqd_data_format, "DATA": CQDDATAHEAD, "fix": 1},
     "CQD3554": {"filename": "CQD3354.xls", "type": "excel", "start": cqd_start_check, "stop": cqd_stop_check,
                     "format": cqd_data_format, "DATA": CQDDATAHEAD, "fix": 1},
     "CQC1254": {"filename": "CQC1254.xlsx", "type": "excel", "start": cqc_start_check, "stop": cqc_stop_check,
