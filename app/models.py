@@ -28,7 +28,7 @@ class FINANCIAL_ACCOUNT(db.Model):
 
 class FINANCIAL_JOURNAL(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
-    DATE = db.Column(db.String)
+    DATE = db.Column(db.DATETIME)
     ACCOUNT_ID = db.Column(db.Integer)
     MONEY = db.Column(db.Float)
     JOB_ID = db.Column(db.Integer)
@@ -43,9 +43,12 @@ class FINANCIAL_JOURNAL(db.Model):
             'REMARK': self.REMARK,
             'DATE': self.DATE,
             'REASON': self.REASON,
-            'JOB_ID': self.JOB_ID,
-            'ACCOUNT_ID': self.ACCOUNT_ID
+            'JOB_ID': str(self.JOB_ID),
+            'ACCOUNT_ID': str(self.ACCOUNT_ID)
         }
+
+    def __str__(self):
+        return "id-{}".format(self.ID)
 
 
 class FINANCIAL_BALANCE(db.Model):

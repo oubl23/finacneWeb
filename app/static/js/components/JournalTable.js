@@ -13,9 +13,8 @@ var JournalTable = React.createClass({
                         <th>账户名</th>
                         <th>消费时间</th>
                         <th>金额</th>
-                        <th>余额/剩余额度</th>
-                        <th>额度/附属理财</th>
-                        <th>上次对账时间</th>
+                        <th>备注</th>
+                        <th>原因</th>
                     </tr>
                 </thead>
                 <tbody>
