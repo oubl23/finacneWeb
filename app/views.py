@@ -107,6 +107,21 @@ def list_account():
     # return jsonify(status="success", finances=[finance.FINANCIAL_ACCOUNT.tojson() for finance in finances])
     return jsonify(status="success", accounts=accounts)
 
+@app.route("/list_balance")
+def list_balance():
+    balances = db.session.query(FINANCIAL_BALANCE.DATETIME,db.func.count('*'),db.func.sum(db.case(
+        [((FINANCIAL_BALANCE.CHECKED == 0), 1)], else_=0))
+    ).group_by(FINANCIAL_BALANCE.DATETIME).all()
+
+    balance_lists = []
+    for balance in balances:
+        balance_list = dict()
+        balance_list["DATETIME"] = balance[0]
+        balance_list["COUNT"] = str(balance[1])
+        balance_list["UNCHECKED"] = str(balance[2])
+        balance_lists.append(balance_list)
+
+    return jsonify(status="success", balance_lists=balance_lists)
 
 @app.route("/save_journal")
 def save_journal():

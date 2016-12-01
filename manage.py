@@ -159,6 +159,15 @@ def list_journal():
     finacnes = FINANCIAL_JOURNAL.query.all()
     for line in finacnes:
         print line.tojson()
+@manager.command
+def list_balance():
+    finacnes = db.session.query(FINANCIAL_BALANCE.DATETIME,db.func.count('*'),db.func.sum(db.case(
+        [((FINANCIAL_BALANCE.CHECKED == 0), 1)], else_=0))
+    ).group_by(FINANCIAL_BALANCE.DATETIME).all()
+
+    for line in finacnes:
+        print line[2]
+
 
 def get_and_check(session, model, content):
     data = []
