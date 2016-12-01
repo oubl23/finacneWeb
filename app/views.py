@@ -109,16 +109,18 @@ def list_account():
 
 @app.route("/list_balance")
 def list_balance():
-    balances = db.session.query(FINANCIAL_BALANCE.DATETIME,db.func.count('*'),db.func.sum(db.case(
+    # TODO:chang data in list
+    balances = db.session.query(FINANCIAL_BALANCE.ID,FINANCIAL_BALANCE.DATETIME,db.func.count('*'),db.func.sum(db.case(
         [((FINANCIAL_BALANCE.CHECKED == 0), 1)], else_=0))
     ).group_by(FINANCIAL_BALANCE.DATETIME).all()
 
     balance_lists = []
     for balance in balances:
         balance_list = dict()
-        balance_list["DATETIME"] = balance[0]
-        balance_list["COUNT"] = str(balance[1])
-        balance_list["UNCHECKED"] = str(balance[2])
+        balance_list["ID"] = balance[0]
+        balance_list["DATETIME"] = balance[1]
+        balance_list["COUNT"] = str(balance[2])
+        balance_list["UNCHECKED"] = str(balance[3])
         balance_lists.append(balance_list)
 
     return jsonify(status="success", balance_lists=balance_lists)

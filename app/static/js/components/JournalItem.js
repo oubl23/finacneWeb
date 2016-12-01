@@ -12,7 +12,6 @@ var JournalItem = React.createClass({
         var journaldate =  year + '/' + month + '/' + day;
 
         return(
-
             <tr>
                 <td>{ journal.ID  }</td>
                 <td>{ journaldate }</td>

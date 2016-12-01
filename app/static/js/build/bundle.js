@@ -22091,7 +22091,7 @@
 	            url: '/list_balance'
 	        }).done(function (resp) {
 	            if (resp.status == "success") {
-	                this.setState({ balances: resp.balances_list });
+	                this.setState({ balances: resp.balance_lists });
 	            }
 	        }.bind(this));
 	    },
@@ -22099,8 +22099,9 @@
 	        this.listBalance();
 	    },
 	    render: function render() {
-	        var balances = this.props.balances.map(function (item) {
-	            return React.createElement(BalanceGroup, { key: item.ID, Balance: item });
+	        //console.log(this.state.balances);
+	        var balances = this.state.balances.map(function (item) {
+	            return React.createElement(BalanceGroup, { key: item.ID, balance: item });
 	        }.bind(this));
 	        return React.createElement(
 	            'div',
@@ -22140,47 +22141,55 @@
 	    displayName: "BalanceGroup",
 
 	    render: function render() {
+	        var balance = this.props.balance;
 	        return React.createElement(
 	            "div",
 	            null,
 	            React.createElement(
 	                "a",
-	                { href: "#", ref: "refs", className: "list-group-item", "data-toggle": "collapse", "data-target": "#sm", "data-parent": "#menu" },
-	                "MESSAGES ",
+	                { href: "#/balance", className: "list-group-item", "data-toggle": "collapse", "data-target": "#balance" + balance.ID },
+	                balance.DATETIME,
 	                React.createElement(
 	                    "span",
-	                    { className: "label label-info" },
-	                    "5"
+	                    { className: "label label-info pull-right" },
+	                    "\u5171",
+	                    balance.COUNT,
+	                    "\u6761"
 	                ),
-	                " ",
 	                React.createElement(
 	                    "span",
-	                    { className: "glyphicon glyphicon-envelope pull-right" },
-	                    " "
+	                    { className: "label label-warning pull-right" },
+	                    "\u672A\u5BF9\u8D26",
+	                    balance.UNCHECKED,
+	                    "\u6761"
 	                )
 	            ),
 	            React.createElement(
 	                "div",
-	                { id: "", className: "sublinks collapse" },
+	                { id: "balance" + balance.ID, className: "sublinks collapse" },
 	                React.createElement(
-	                    "a",
-	                    { className: "list-group-item small" },
+	                    "div",
+	                    null,
 	                    React.createElement(
-	                        "span",
-	                        { className: "glyphicon glyphicon-chevron-right" },
-	                        " "
+	                        "a",
+	                        { className: "list-group-item small" },
+	                        React.createElement(
+	                            "span",
+	                            { className: "glyphicon glyphicon-chevron-right" },
+	                            " "
+	                        ),
+	                        " inbox"
 	                    ),
-	                    " inbox"
-	                ),
-	                React.createElement(
-	                    "a",
-	                    { className: "list-group-item small" },
 	                    React.createElement(
-	                        "span",
-	                        { className: "glyphicon glyphicon-chevron-right" },
-	                        " "
-	                    ),
-	                    " sent"
+	                        "a",
+	                        { className: "list-group-item small" },
+	                        React.createElement(
+	                            "span",
+	                            { className: "glyphicon glyphicon-chevron-right" },
+	                            " "
+	                        ),
+	                        " sent"
+	                    )
 	                )
 	            )
 	        );

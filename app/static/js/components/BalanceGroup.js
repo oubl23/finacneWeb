@@ -2,10 +2,14 @@ let React = require("react");
 
 let BalanceGroup = React.createClass({
     render:function () {
+        let balance = this.props.balance;
         return(
             <div>
-                <a href="#" ref="refs" className="list-group-item" data-toggle="collapse" data-target="#sm" data-parent="#menu">MESSAGES <span className="label label-info">5</span> <span className="glyphicon glyphicon-envelope pull-right"> </span></a>
-                <div id="" className="sublinks collapse">
+                <a href="#/balance" className="list-group-item" data-toggle="collapse" data-target={"#balance"+ balance.ID } >{balance.DATETIME}
+                    <span className="label label-info pull-right">共{balance.COUNT}条</span>
+                    <span className="label label-warning pull-right">未对账{balance.UNCHECKED}条</span>
+                </a>
+                <div id={"balance" + balance.ID} className="sublinks collapse" >
                     <a className="list-group-item small"><span className="glyphicon glyphicon-chevron-right"> </span> inbox</a>
                     <a className="list-group-item small"><span className="glyphicon glyphicon-chevron-right"> </span> sent</a>
                 </div>

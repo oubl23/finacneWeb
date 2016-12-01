@@ -13,7 +13,7 @@ let Balance = React.createClass({
             url: '/list_balance'
         }).done(function (resp) {
             if(resp.status == "success"){
-                this.setState({balances:resp.balances_list});
+                this.setState({balances:resp.balance_lists});
             }
         }.bind(this))
     },
@@ -21,8 +21,9 @@ let Balance = React.createClass({
         this.listBalance();
     },
     render:function () {
-        let balances = this.props.balances.map(function (item) {
-            return <BalanceGroup  key = {item.ID} Balance={item} />
+        //console.log(this.state.balances);
+        let balances = this.state.balances.map(function (item) {
+            return <BalanceGroup  key = {item.ID} balance={item} />
         }.bind(this));
         return(
             <div className="panel list-group">
