@@ -1,12 +1,10 @@
 var React = require("react");
-var FinanceTable = require("./FinanceTable");
-var FinanceFile = require("./FinanceFile");
-var FinanceMessage = require("./FinanceMessage");
+var JournalItem = require("./JournalItem");
 
-var Journal = React.createClass({
+var JournalTable = React.createClass({
     render:function () {
-        var finances = this.props.finances.map(function (item) {
-            return <FinanceItem  key = {item.ID} finance={item} />
+        var journals = this.props.journals.map(function (item) {
+            return <JournalItem  key = {item.ID} journal={item} />
         }.bind(this));
         return(
                 <table className="table table-striped">
@@ -21,10 +19,10 @@ var Journal = React.createClass({
                     </tr>
                 </thead>
                 <tbody>
-                {finances}
+                {journals}
                 </tbody>
             </table>
         )
     }
 });
-module.exports = Journal;
+module.exports = JournalTable;
