@@ -94,14 +94,35 @@ body {
     text-align: center;
 }
 
-.panel-title > a:before {
-    font-family: FontAwesome;
-    content:"\f07c";
-    padding-right: 5px;
+/* FANCY COLLAPSE PANEL STYLES */
+.fancy-collapse-panel .panel-default > .panel-heading {
+    padding: 0;
+
 }
-.panel-title > a.collapsed:before {
-    content:"\f07b";
+
+.fancy-collapse-panel .panel-heading a {
+    padding: 12px 35px 12px 15px;
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    text-decoration: none;
 }
+
+.panel-title > a:before  {
+    /*font-family: "FontAwesome";*/
+    /*content: "\f147";*/
+    position: absolute;
+    right: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    top: 50%;
+    line-height: 1;
+    margin-top: -10px;
+}
+
+/*.panel-title > a.collapsed:before{*/
+    /*content: "\f196";*/
+/*}*/
 .panel-title > a:hover,
 .panel-title > a:active,
 .panel-title > a:focus  {

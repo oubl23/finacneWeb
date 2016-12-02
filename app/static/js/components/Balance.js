@@ -24,14 +24,8 @@ let Balance = React.createClass({
         //console.log(this.state.balances);
         let i = 0;
         let balances = this.state.balances.map(function (item) {
-            i++;
-            let ins = "";
-            if(i == 1){
-                ins = "in";
-            }
-            console.log(ins);
             return (
-                <BalanceGroup key={item.ID} balance={item} ins = {ins} />
+                <BalanceGroup key={item.ID} balance={item}  />
             )
         }.bind(this));
         return (

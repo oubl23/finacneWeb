@@ -22102,13 +22102,7 @@
 	        //console.log(this.state.balances);
 	        var i = 0;
 	        var balances = this.state.balances.map(function (item) {
-	            i++;
-	            var ins = "";
-	            if (i == 1) {
-	                ins = "in";
-	            }
-	            console.log(ins);
-	            return React.createElement(BalanceGroup, { key: item.ID, balance: item, ins: ins });
+	            return React.createElement(BalanceGroup, { key: item.ID, balance: item });
 	        }.bind(this));
 	        return React.createElement(
 	            'div',
@@ -22137,7 +22131,6 @@
 
 	    render: function render() {
 	        var balance = this.props.balance;
-	        var ins = this.props.ins;
 	        var balance_item = balance.DATA.map(function (item) {
 	            return React.createElement(BalanceItem, { key: item.ID, balance_item: item });
 	        }.bind(this));
@@ -22152,7 +22145,7 @@
 	                    { className: "panel-title" },
 	                    React.createElement(
 	                        "a",
-	                        { className: "btn btn-sm", "data-toggle": "collapse", href: "#balance" + balance.ID, "data-parent": "#menu" },
+	                        { className: "list-group-item", "data-toggle": "collapse", href: "#balance" + balance.ID, "data-parent": "#accordion" },
 	                        balance.DATETIME,
 	                        React.createElement(
 	                            "span",
@@ -22177,7 +22170,7 @@
 	            ),
 	            React.createElement(
 	                "div",
-	                { id: "balance" + balance.ID, className: "panel-collapse collapse " + ins },
+	                { id: "balance" + balance.ID, className: "panel-collapse collapse" },
 	                React.createElement(
 	                    "table",
 	                    { className: "table table-striped" },
