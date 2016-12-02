@@ -13,7 +13,7 @@ let Balance = React.createClass({
             url: '/list_balance'
         }).done(function (resp) {
             if(resp.status == "success"){
-                this.setState({balances:resp.balance_lists});
+                this.setState({balances:resp.balances});
             }
         }.bind(this))
     },

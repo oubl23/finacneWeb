@@ -5,6 +5,7 @@ import re
 import shutil
 import time
 import zipfile
+from collections import OrderedDict
 
 from flask import render_template, jsonify
 from flask import request
@@ -114,16 +115,32 @@ def list_balance():
         [((FINANCIAL_BALANCE.CHECKED == 0), 1)], else_=0))
     ).group_by(FINANCIAL_BALANCE.DATETIME).all()
 
-    balance_lists = []
+    balances_all = FINANCIAL_BALANCE.query.all()
+    balance_lists = OrderedDict()
     for balance in balances:
+        balance_time = balance[1].strftime("%Y-%m-%d %H:%M:%S")
         balance_list = dict()
         balance_list["ID"] = balance[0]
-        balance_list["DATETIME"] = balance[1]
+        balance_list["DATETIME"] = balance_time
         balance_list["COUNT"] = str(balance[2])
         balance_list["UNCHECKED"] = str(balance[3])
-        balance_lists.append(balance_list)
+        balance_list["DATA"] = []
+        balance_lists[balance_time] = balance_list
 
-    return jsonify(status="success", balance_lists=balance_lists)
+    for line in balances_all:
+        balance = dict()
+        balance["ACCOUNT_ID"] = line.ACCOUNT_ID
+        balance["CHECKED"] = line.CHECKED
+        balance["MONEY"]  = line.MONEY
+        balance["ACCESSARY"] = line.ACCESSARY
+        balance_lists[str(line.DATETIME)]["DATA"].append(balance)
+    balances = []
+    # for k, v in balance_lists.items():
+    #     balances.append(v)
+
+    for line in balance_lists:
+        balances.append(balance_lists[line])
+    return jsonify(status="success", balances=balances)
 
 @app.route("/save_journal")
 def save_journal():

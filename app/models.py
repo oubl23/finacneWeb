@@ -61,6 +61,7 @@ class FINANCIAL_BALANCE(db.Model):
 
 
 
+
 class Finance_data():
     def __init__(self, filename, path, account_id):
         self.financial_journal_all = []
