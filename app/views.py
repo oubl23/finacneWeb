@@ -6,11 +6,9 @@ import shutil
 import time
 import zipfile
 from collections import OrderedDict
-
 from flask import render_template, jsonify
 from flask import request
 from flask import send_from_directory
-
 from app import app, db
 from app.financeControl import Finance
 from models import FINANCIAL_ACCOUNT, FINANCIAL_JOURNAL, FINANCIAL_BALANCE
@@ -76,18 +74,6 @@ def parse_to_dict_vals(dictin):
 @app.route("/", methods=["POST", "GET"])
 def index():
     return render_template("index.html")
-# def index():
-#     finances = db.session.query(FINANCIAL_ACCOUNT, db.func.max(FINANCIAL_BALANCE.DATETIME)).outerjoin(FINANCIAL_BALANCE,
-#                                                                                                       FINANCIAL_ACCOUNT.ID == FINANCIAL_BALANCE.ACCOUNT_ID).add_columns(
-#         FINANCIAL_BALANCE.MONEY).group_by(
-#         FINANCIAL_BALANCE.ACCOUNT_ID).all()
-#     accounts = []
-#     for finance in finances:
-#         account = finance.FINANCIAL_ACCOUNT.tojson()
-#         account["DATETIME"] = str(finance[1])
-#         account["MONEY"] = finance[2]
-#         accounts.append(account)
-#     return render_template("index.html", accounts=accounts)
 
 @app.route("/journal/", methods=["POST", "GET"])
 def journal():
@@ -113,7 +99,7 @@ def list_balance():
     # TODO:chang data in list
     balances = db.session.query(FINANCIAL_BALANCE.ID,FINANCIAL_BALANCE.DATETIME,db.func.count('*'),db.func.sum(db.case(
         [((FINANCIAL_BALANCE.CHECKED == 0), 1)], else_=0))
-    ).group_by(FINANCIAL_BALANCE.DATETIME).all()
+    ).group_by(FINANCIAL_BALANCE.DATETIME).order_by(db.desc(FINANCIAL_BALANCE.DATETIME)).all()
 
     balances_all = FINANCIAL_BALANCE.query.all()
     balance_lists = OrderedDict()

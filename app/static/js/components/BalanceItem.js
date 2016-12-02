@@ -7,6 +7,7 @@ let BalanceItem = React.createClass({
                 <tr>
                     <td>{ balance_item.ACCOUNT_ID}</td>
                     <td>{balance_item.CHECKED}</td>
+                    <td>{balance_item.MONEY}</td>
                 </tr>
         )
     }

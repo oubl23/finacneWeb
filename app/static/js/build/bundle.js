@@ -22100,34 +22100,28 @@
 	    },
 	    render: function render() {
 	        //console.log(this.state.balances);
+	        var i = 0;
 	        var balances = this.state.balances.map(function (item) {
-	            return React.createElement(BalanceGroup, { key: item.ID, balance: item });
+	            i++;
+	            var ins = "";
+	            if (i == 1) {
+	                ins = "in";
+	            }
+	            console.log(ins);
+	            return React.createElement(BalanceGroup, { key: item.ID, balance: item, ins: ins });
 	        }.bind(this));
 	        return React.createElement(
 	            'div',
-	            { className: 'panel list-group' },
-	            balances
+	            { className: 'fancy-collapse-panel' },
+	            React.createElement(
+	                'div',
+	                { className: 'panel-group', id: 'accordion' },
+	                balances
+	            )
 	        );
 	    }
 	});
 	module.exports = Balance;
-
-	//
-	// import React from 'react';
-	//
-	// export default class Journal extends React.Component {
-	//     constructor(props){
-	//         super(props);
-	//         this.state = {};
-	//     }
-	//     render() {
-	//         return(
-	//                 <div>
-	//                 world
-	//                 </div>
-	//             )
-	//     }
-	// };
 
 /***/ },
 /* 187 */
@@ -22143,38 +22137,47 @@
 
 	    render: function render() {
 	        var balance = this.props.balance;
+	        var ins = this.props.ins;
 	        var balance_item = balance.DATA.map(function (item) {
 	            return React.createElement(BalanceItem, { key: item.ID, balance_item: item });
 	        }.bind(this));
 	        return React.createElement(
 	            "div",
-	            null,
+	            { className: "panel panel-default" },
 	            React.createElement(
-	                "a",
-	                { href: "#/balance", className: "list-group-item", "data-toggle": "collapse", "data-target": "#balance" + balance.ID },
-	                balance.DATETIME,
+	                "div",
+	                { className: "panel-heading" },
 	                React.createElement(
-	                    "span",
-	                    { className: "pull-right" },
+	                    "h4",
+	                    { className: "panel-title" },
 	                    React.createElement(
-	                        "span",
-	                        { className: "label label-info" },
-	                        balance.COUNT
-	                    )
-	                ),
-	                React.createElement(
-	                    "span",
-	                    { className: "pull-right" },
-	                    React.createElement(
-	                        "span",
-	                        { className: "label label-warning" },
-	                        balance.UNCHECKED
+	                        "a",
+	                        { className: "btn btn-sm", "data-toggle": "collapse", href: "#balance" + balance.ID, "data-parent": "#menu" },
+	                        balance.DATETIME,
+	                        React.createElement(
+	                            "span",
+	                            { className: "pull-right" },
+	                            React.createElement(
+	                                "span",
+	                                { className: "label label-info" },
+	                                balance.COUNT
+	                            )
+	                        ),
+	                        React.createElement(
+	                            "span",
+	                            { className: "pull-right" },
+	                            React.createElement(
+	                                "span",
+	                                { className: "label label-warning" },
+	                                balance.UNCHECKED
+	                            )
+	                        )
 	                    )
 	                )
 	            ),
 	            React.createElement(
 	                "div",
-	                { id: "balance" + balance.ID, className: "sublinks collapse" },
+	                { id: "balance" + balance.ID, className: "panel-collapse collapse " + ins },
 	                React.createElement(
 	                    "table",
 	                    { className: "table table-striped" },
@@ -22193,6 +22196,11 @@
 	                                "th",
 	                                null,
 	                                "\u5BF9\u8D26\u72B6\u6001"
+	                            ),
+	                            React.createElement(
+	                                "td",
+	                                null,
+	                                "\u4F59\u989D"
 	                            )
 	                        )
 	                    ),
@@ -22207,24 +22215,6 @@
 	    }
 	});
 	module.exports = BalanceGroup;
-
-	//  <div>
-	//  <a href="#/balance" className="list-group-item" data-toggle="collapse" data-target="#sm" data-parent="#menu">MESSAGES <span className="label label-info">5</span> <span className="glyphicon glyphicon-envelope pull-right"> </span></a>
-	//  <div id="sm" className="sublinks collapse">
-	//   <a className="list-group-item small"><span className="glyphicon glyphicon-chevron-right"> </span> inbox</a>
-	//   <a className="list-group-item small"><span className="glyphicon glyphicon-chevron-right"> </span> sent</a>
-	//  </div>
-	//  </div>
-	// <div>
-	//  <a href="#" className="list-group-item" data-toggle="collapse" data-target="#sl" data-parent="#menu">TASKS <span className="glyphicon glyphicon-tag pull-right"> </span></a>
-	//  <div id="sl" className="sublinks collapse">
-	//   <a className="list-group-item small"><span className="glyphicon glyphicon-chevron-right"> </span> saved tasks</a>
-	//   <a className="list-group-item small"><span className="glyphicon glyphicon-chevron-right"> </span> add new task</a>
-	//  </div>
-	//     </div>
-	//     <div>
-	//  <a href="#" className="list-group-item">ANOTHER LINK ...<span className="glyphicon glyphicon-stats pull-right"> </span></a>
-	//     </div>
 
 /***/ },
 /* 188 */
@@ -22251,6 +22241,11 @@
 	                "td",
 	                null,
 	                balance_item.CHECKED
+	            ),
+	            React.createElement(
+	                "td",
+	                null,
+	                balance_item.MONEY
 	            )
 	        );
 	    }
