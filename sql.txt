@@ -1,0 +1,2 @@
+select DATETIME,count(*) from FINANCIAL_BALANCE group by DATETIME;
+select count(*) ,sum(CASE WHEN CHECKED = 1 then 1 else 0 end) from FINANCIAL_BALANCE group by DATETIME;
