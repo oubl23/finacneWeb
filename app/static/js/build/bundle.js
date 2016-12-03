@@ -21928,7 +21928,7 @@
 	    },
 	    componentDidMount: function componentDidMount() {
 	        this.listJournal();
-	        $('#table-journal').DataTable({
+	        var datatable = $('#table-journal').DataTable({
 	            "ajax": {
 	                "url": "/list_journal",
 	                "type": "get",
@@ -21936,11 +21936,14 @@
 	                    alert("服务器未正常响应，请重试!!!");
 	                }
 	            },
-	            "columns": [{ "data": "ACCOUNT_ID", "title": "ID", "defaultContent": "" }, { "data": "DATE", "title": "TYPE", "defaultContent": "" }, { "data": "ID", "title": "DESCRIPTION", "defaultContent": "" }, { "data": "JOB_ID", "title": "MANUFACTURER", "defaultContent": "" }, { "data": "MONEY", "title": "MODEL", "defaultContent": "" }, { "data": "REASON", "title": "VALUE", "defaultContent": "" }, { "data": "REMARK", "title": "LIBRARY_REF", "defaultContent": "" }]
+	            "columns": [{ "data": "ACCOUNT_ID", "title": "账户", "defaultContent": "" }, { "data": "DATE", "title": "日期", "defaultContent": "" },
+	            // { "data": "ID", "title":"ID","defaultContent":""},
+	            // { "data": "JOB_ID", "title":"MANUFACTURER","defaultContent":""},
+	            { "data": "MONEY", "title": "金额", "defaultContent": "" }, { "data": "REMARK", "title": "备注", "defaultContent": "" }, { "data": "REASON", "title": "原因", "defaultContent": "" }]
 	        });
 	    },
 	    componentWillUnmount: function componentWillUnmount() {
-	        alert(111);
+	        $('#table-journal').DataTable().destroy();
 	    },
 	    render: function render() {
 	        return React.createElement(JournalTable, { journals: this.state.journals });
