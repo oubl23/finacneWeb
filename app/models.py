@@ -41,7 +41,7 @@ class FINANCIAL_JOURNAL(db.Model):
             'ID': str(self.ID),
             'MONEY': self.MONEY,
             'REMARK': self.REMARK,
-            'DATE': self.DATE,
+            'DATE': self.DATE.strftime("%Y-%m-%d %H:%M:%S"),
             'REASON': self.REASON,
             'JOB_ID': str(self.JOB_ID),
             'ACCOUNT_ID': str(self.ACCOUNT_ID)

@@ -21913,6 +21913,7 @@
 	    getInitialState: function getInitialState() {
 	        return {
 	            journals: []
+
 	        };
 	    },
 	    listJournal: function listJournal() {
@@ -21927,6 +21928,19 @@
 	    },
 	    componentDidMount: function componentDidMount() {
 	        this.listJournal();
+	        $('#table-journal').DataTable({
+	            "ajax": {
+	                "url": "/list_journal",
+	                "type": "get",
+	                "error": function error() {
+	                    alert("服务器未正常响应，请重试!!!");
+	                }
+	            },
+	            "columns": [{ "data": "ACCOUNT_ID", "title": "ID", "defaultContent": "" }, { "data": "DATE", "title": "TYPE", "defaultContent": "" }, { "data": "ID", "title": "DESCRIPTION", "defaultContent": "" }, { "data": "JOB_ID", "title": "MANUFACTURER", "defaultContent": "" }, { "data": "MONEY", "title": "MODEL", "defaultContent": "" }, { "data": "REASON", "title": "VALUE", "defaultContent": "" }, { "data": "REMARK", "title": "LIBRARY_REF", "defaultContent": "" }]
+	        });
+	    },
+	    componentWillUnmount: function componentWillUnmount() {
+	        alert(111);
 	    },
 	    render: function render() {
 	        return React.createElement(JournalTable, { journals: this.state.journals });
@@ -21967,48 +21981,22 @@
 	        var journals = this.props.journals.map(function (item) {
 	            return React.createElement(JournalItem, { key: item.ID, journal: item });
 	        }.bind(this));
-	        return React.createElement(
-	            "table",
-	            { className: "table table-striped" },
-	            React.createElement(
-	                "thead",
-	                null,
-	                React.createElement(
-	                    "tr",
-	                    null,
-	                    React.createElement(
-	                        "th",
-	                        null,
-	                        "\u8D26\u6237\u540D"
-	                    ),
-	                    React.createElement(
-	                        "th",
-	                        null,
-	                        "\u6D88\u8D39\u65F6\u95F4"
-	                    ),
-	                    React.createElement(
-	                        "th",
-	                        null,
-	                        "\u91D1\u989D"
-	                    ),
-	                    React.createElement(
-	                        "th",
-	                        null,
-	                        "\u5907\u6CE8"
-	                    ),
-	                    React.createElement(
-	                        "th",
-	                        null,
-	                        "\u539F\u56E0"
-	                    )
-	                )
-	            ),
-	            React.createElement(
-	                "tbody",
-	                null,
-	                journals
-	            )
-	        );
+	        return React.createElement("table", { id: "table-journal", className: "table table-striped table-bordered dataTable no-footer display" })
+	        //     <table className="table table-striped" id="table-journal">
+	        //     <thead>
+	        //         <tr>
+	        //             <th>账户名</th>
+	        //             <th>消费时间</th>
+	        //             <th>金额</th>
+	        //             <th>备注</th>
+	        //             <th>原因</th>
+	        //         </tr>
+	        //     </thead>
+	        //     {/*<tbody>*/}
+	        //     {/*{journals}*/}
+	        //     {/*</tbody>*/}
+	        // </table>
+	        ;
 	    }
 	});
 	module.exports = JournalTable;

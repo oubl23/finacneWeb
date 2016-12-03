@@ -115,6 +115,7 @@ def list_balance():
 
     for line in balances_all:
         balance = dict()
+        balance["ID"] = line.ID
         balance["ACCOUNT_ID"] = line.ACCOUNT_ID
         balance["CHECKED"] = line.CHECKED
         balance["MONEY"]  = line.MONEY
@@ -235,7 +236,7 @@ def add_balance():
 @app.route('/list_journal')
 def list_journal():
     journals = FINANCIAL_JOURNAL.query.all()
-    return jsonify(status="success", journals = [journal.tojson() for journal in journals])
+    return jsonify(data = [journal.tojson() for journal in journals])
 
 
 @app.route('/favicon.ico')

@@ -4,7 +4,8 @@ var JournalTable = require("./JournalTable");
 var Journal = React.createClass({
     getInitialState:function(){
         return{
-            journals: []
+            journals: [],
+
         }
     },
     listJournal:function () {
@@ -19,6 +20,25 @@ var Journal = React.createClass({
     },
     componentDidMount: function () {
         this.listJournal();
+        let datatable = $('#table-journal').DataTable({
+            "ajax": {
+               "url": "/list_journal",
+               "type": "get",
+               "error":function(){alert("服务器未正常响应，请重试!!!");}
+            },
+            "columns": [
+                    { "data": "ACCOUNT_ID", "title":"ID","defaultContent":""},
+                    { "data": "DATE", "title":"TYPE","defaultContent":""},
+                    { "data": "ID", "title":"DESCRIPTION","defaultContent":""},
+                    { "data": "JOB_ID", "title":"MANUFACTURER","defaultContent":""},
+                    { "data": "MONEY", "title":"MODEL","defaultContent":""},
+                    { "data": "REASON", "title":"VALUE","defaultContent":""},
+                    { "data": "REMARK", "title":"LIBRARY_REF","defaultContent":""},
+            ],
+        });
+    },
+    componentWillUnmount:function(){
+        datatable.destroy();
     },
     render:function () {
         return(
