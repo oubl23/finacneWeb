@@ -22150,6 +22150,7 @@
 	                        React.createElement(
 	                            "span",
 	                            { className: "pull-right" },
+	                            "￥" + balance.SUMMARY + "  ",
 	                            React.createElement(
 	                                "span",
 	                                { className: "label label-warning" },

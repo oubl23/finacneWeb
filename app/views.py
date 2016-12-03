@@ -126,6 +126,10 @@ def list_balance():
     #     balances.append(v)
 
     for line in balance_lists:
+        money = 0.0;
+        for data in balance_lists[line]["DATA"]:
+            money += float(data["MONEY"])
+        balance_lists[line]["SUMMARY"] = money
         balances.append(balance_lists[line])
     return jsonify(status="success", balances=balances)
 

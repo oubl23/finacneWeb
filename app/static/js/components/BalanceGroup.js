@@ -13,7 +13,7 @@ let BalanceGroup = React.createClass({
                      <h4 className="panel-title">
                         <a  className="list-group-item" data-toggle="collapse" href={"#balance"+ balance.ID } data-parent="#accordion">{balance.DATETIME}
                             <span className="pull-right"><span className="label label-info">{balance.COUNT}</span></span>
-                            <span className="pull-right"><span className="label label-warning">{balance.UNCHECKED}</span></span>
+                            <span className="pull-right">{"￥"+balance.SUMMARY+"  "}<span className="label label-warning">{balance.UNCHECKED}</span></span>
                         </a>
                      </h4>
                 </div>
