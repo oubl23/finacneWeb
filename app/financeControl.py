@@ -10,7 +10,7 @@ ALIDATAHEAD = {
     "交易创建时间": "DATE",
     "金额（元）": "MONEY",
     "备注": "REMARK",
-    "商品名称":"NAME",
+    "商品名称":"TYPE",
     "资金状态": "STATUS"
 }
 
@@ -18,6 +18,7 @@ ALIDATAHEAD = {
 CMDDATAHEAD = {
     "交易日期": "DATE",
     "交易时间": "TIME",
+    "交易类型": "TYPE",
     "收入": "INCOME",
     "支出": "EXPEND",
     "交易备注": "REMARK",
@@ -34,6 +35,7 @@ CMCDATAHEAD = {
 ICCDATAHEAD = {
     '交易日期': "DATE",
     '摘要': "REMARK",
+    "交易场所":"TYPE",
     "交易金额(收入)": "INCOME",
     "交易金额(支出)": "EXPEND",
 }
@@ -85,12 +87,12 @@ def ali_stop_check(data):
 
 
 def ali_data_format(content):
-    for content in content:
-        if content["STATUS"] == "已收入":
-            content["MONEY"] = float(content["MONEY"])
+    for line in content:
+        if line["STATUS"] == "已收入":
+            line["MONEY"] = line(content["MONEY"])
         else:
-            content["MONEY"] = float(content["MONEY"]) * -1
-        content["REMARK"] = content["NAME"] + ";" + content["REMARK"]
+            line["MONEY"] = float(line["MONEY"]) * -1
+        line["REMARK"] = line["TYPE"] + ";" + line["REMARK"]
 
 
 def cmd_start_check(filecontent):
@@ -112,6 +114,7 @@ def cmd_data_format(content):
         else:
             line["MONEY"] = 0
         line["DATE"] = line["DATE"][0:4] + "-" + line["DATE"][4:6] + "-" + line["DATE"][6:8] + " " + line["TIME"]
+        line["REMARK"] = line["TYPE"] + ";" + line["REMARK"]
 
 
 def cmc_start_check(data):
@@ -149,6 +152,7 @@ def icc_data_format(content):
             line["MONEY"] = float(line["EXPEND"].replace(",", "")) * -1
         else:
             line["MONEY"] = 0
+        line["REMARK"] = line["TYPE"] + ";" + line["REMARK"]
 
 
 def cqd_start_check(data):
