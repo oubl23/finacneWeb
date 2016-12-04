@@ -90,7 +90,7 @@ def ali_data_format(content):
             content["MONEY"] = float(content["MONEY"])
         else:
             content["MONEY"] = float(content["MONEY"]) * -1
-        content["REMAKR"] = content["NAME"] + ";" + content["REMAKR"]
+        content["REMARK"] = content["NAME"] + ";" + content["REMARK"]
 
 
 def cmd_start_check(filecontent):
@@ -368,6 +368,6 @@ class Finance(object):
 
 
 if __name__ == "__main__":
-    finance = Finance("CQC1254", "CMC5102", "./static/upload/data/CQC1254.xlsx")
+    finance = Finance("ALI0577", "ALI0577", "./static/upload/data/ALI0577.csv")
     for content in finance.content:
         print content
