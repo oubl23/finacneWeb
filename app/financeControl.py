@@ -89,7 +89,7 @@ def ali_stop_check(data):
 def ali_data_format(content):
     for line in content:
         if line["STATUS"] == "已收入":
-            line["MONEY"] = line(content["MONEY"])
+            line["MONEY"] = float(line["MONEY"])
         else:
             line["MONEY"] = float(line["MONEY"]) * -1
         line["REMARK"] = line["TYPE"] + ";" + line["REMARK"]
