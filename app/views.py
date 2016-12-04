@@ -242,6 +242,16 @@ def list_journal():
     journals = FINANCIAL_JOURNAL.query.all()
     return jsonify(data = [journal.tojson() for journal in journals])
 
+@app.route('/update_journal', methods=['POST',])
+def update_journal():
+    form = request.form
+    update_id = form.get('update_id')
+    update_reason = form.get('update_reason')
+    journal = FINANCIAL_JOURNAL.query.filter_by(ID=update_id).first()
+    journal.REASON = update_reason
+    db.session.commit()
+    message = u"ID为"+ update_id + u"的数据成功修改为:"+update_reason
+    return jsonify(status="success",message=message)
 
 @app.route('/favicon.ico')
 def favicon():
