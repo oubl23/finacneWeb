@@ -164,7 +164,13 @@ def cqd_stop_check(data):
 
 
 def cqd_data_format(content):
-    icc_data_format(content)
+    for line in content:
+        if line["EXPEND"] == '' and line["INCOME"] != '':
+            line["MONEY"] = float(line["INCOME"].replace(",", ""))
+        elif line["INCOME"] == '' and line["EXPEND"] != '':
+            line["MONEY"] = float(line["EXPEND"].replace(",", "")) * -1
+        else:
+            line["MONEY"] = 0
 
 
 def cqc_start_check(data):
@@ -200,7 +206,13 @@ def cqa_stop_check(data):
 
 
 def cqa_data_format(content):
-    cqd_data_format(content)
+    for line in content:
+        if line["EXPEND"] == '' and line["INCOME"] != '':
+            line["MONEY"] = float(line["INCOME"].replace(",", ""))
+        elif line["INCOME"] == '' and line["EXPEND"] != '':
+            line["MONEY"] = float(line["EXPEND"].replace(",", "")) * -1
+        else:
+            line["MONEY"] = 0
 
 
 def swu_start_check(data):
@@ -372,6 +384,6 @@ class Finance(object):
 
 
 if __name__ == "__main__":
-    finance = Finance("ALI0577", "ALI0577", "./static/upload/data/ALI0577.csv")
+    finance = Finance("CQA7074", "CQA7074", "./static/upload/data/CQA7074.xls")
     for content in finance.content:
         print content
