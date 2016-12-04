@@ -5,7 +5,6 @@ var Journal = React.createClass({
     getInitialState:function(){
         return{
             journals: [],
-
         }
     },
     listJournal:function () {
@@ -37,6 +36,22 @@ var Journal = React.createClass({
 
             ],
         });
+        datatable.MakeCellsEditable({
+        "onUpdate": myCallbackFunction,
+        "inputCss":'my-input-class',
+        "columns": [4],
+        "confirmationButton": { // could also be true
+            "confirmCss": 'my-confirm-class',
+            "cancelCss": 'my-cancel-class'
+        },
+        "inputTypes": [
+            {
+                "column": 4,
+                "type": "text",
+                "options": null
+            }
+        ]
+    });
     },
     componentWillUnmount:function(){
         $('#table-journal').DataTable().destroy();
