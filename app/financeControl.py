@@ -10,6 +10,7 @@ ALIDATAHEAD = {
     "交易创建时间": "DATE",
     "金额（元）": "MONEY",
     "备注": "REMARK",
+    "商品名称":"NAME",
     "资金状态": "STATUS"
 }
 
@@ -89,6 +90,7 @@ def ali_data_format(content):
             content["MONEY"] = float(content["MONEY"])
         else:
             content["MONEY"] = float(content["MONEY"]) * -1
+        content["REMAKR"] = content["NAME"] + ";" + content["REMAKR"]
 
 
 def cmd_start_check(filecontent):
