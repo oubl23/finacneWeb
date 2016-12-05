@@ -10,4 +10,4 @@ if __name__ == "__main__":
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
     app.logger.setLevel(logging.DEBUG)
-    app.run(port="5000")
+    app.run(host="0.0.0.0",port="8080")
