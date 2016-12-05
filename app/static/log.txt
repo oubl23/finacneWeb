@@ -1,0 +1,787 @@
+[2016-11-28 15:51:54,191] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:211} INFO - Info
+[2016-11-29 16:58:48,292] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 224, in add_balance
+    if financial_account.has_key(int(account.ID)):
+AttributeError: 'FINANCIAL_ACCOUNT' object has no attribute 'has_key'
+[2016-11-29 17:00:20,528] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 229, in add_balance
+    available_content = get_and_check(db.session, FINANCIAL_JOURNAL, finance_content[int(account.ID)],balance.ID)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 293, in get_and_check
+    for line in content:
+TypeError: 'long' object is not iterable
+[2016-11-29 21:19:30,178] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 238, in add_balance
+    shutil.move("./app/static/upload/finance.zip", newfilename)
+  File "C:\Python27\lib\shutil.py", line 303, in move
+    os.unlink(src)
+WindowsError: [Error 32] : './app/static/upload/finance.zip'
+[2016-11-29 21:23:47,892] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:211} ERROR - ABC3829,file error
+[2016-11-29 21:24:59,588] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:211} ERROR - ABC3829,file error
+[2016-11-29 21:30:25,302] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:211} ERROR - ABC3829,file error
+[2016-11-29 21:31:53,826] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:211} ERROR - ABC3829,file error
+[2016-11-29 21:32:58,828] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:211} ERROR - ABC3829,file error
+[2016-11-29 21:33:41,447] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:211} ERROR - ABC3829,file error
+[2016-11-29 21:35:12,650] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:211} ERROR - ABC3829,file error
+[2016-11-29 21:43:26,115] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:212} ERROR - ABC3829,file error
+[2016-11-29 21:43:40,657] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:212} ERROR - ABC3829,file error
+[2016-11-29 21:44:31,890] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:212} ERROR - ABC3829,file error
+[2016-11-29 22:10:52,469] {C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py:210} ERROR - ABC3829,file error
+[2016-11-29 22:10:52,586] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 212, in add_balance
+    return jsonify(status="error", message="浠ヤ笅鏂囦欢鏈彁浜ゆ垨鑰呮牸寮忛敊璇紝妫€鏌ユ枃浠讹紒鍙嬀閫夋棤浜ゆ槗璁板綍璺宠繃璇ユ枃浠? + message)
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xe4 in position 0: ordinal not in range(128)
+[2016-11-29 22:13:42,164] {C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py:210} ERROR - ABC3829,file error
+[2016-11-29 22:26:27,874] {C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py:210} ERROR - ABC3829,file error
+[2016-11-29 22:28:33,582] {C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py:210} ERROR - ABC3829,ALI0677,SWU7814,file error
+[2016-11-29 22:28:33,586] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 211, in add_balance
+    clear_zip()
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 326, in clear_zip
+    shutil.rmtree("./app/static/upload/data")
+  File "C:\Python27\lib\shutil.py", line 252, in rmtree
+    onerror(os.remove, fullname, sys.exc_info())
+  File "C:\Python27\lib\shutil.py", line 250, in rmtree
+    os.remove(fullname)
+WindowsError: [Error 32] : './app/static/upload/data\\ALI0577.csv'
+[2016-11-29 22:30:47,240] {C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py:210} ERROR - ABC3829,ALI0677,SWU7814,file error
+[2016-11-29 22:30:47,242] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 211, in add_balance
+    clear_zip()
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 326, in clear_zip
+    shutil.rmtree("./app/static/upload/data")
+  File "C:\Python27\lib\shutil.py", line 252, in rmtree
+    onerror(os.remove, fullname, sys.exc_info())
+  File "C:\Python27\lib\shutil.py", line 250, in rmtree
+    os.remove(fullname)
+WindowsError: [Error 32] : './app/static/upload/data\\ALI0577.csv'
+[2016-11-29 22:32:51,023] {C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py:210} ERROR - ABC3829,ALI0677,SWU7814,file error
+[2016-11-29 22:32:51,025] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 211, in add_balance
+    app.logger.error(message + "file error")
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 326, in clear_zip
+    def clear_zip():
+  File "C:\Python27\lib\shutil.py", line 252, in rmtree
+    onerror(os.remove, fullname, sys.exc_info())
+  File "C:\Python27\lib\shutil.py", line 250, in rmtree
+    os.remove(fullname)
+WindowsError: [Error 32] : './app/static/upload/data\\ALI0577.csv'
+[2016-11-29 22:37:38,888] {C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py:210} ERROR - ABC3829,ALI0677,SWU7814,file error
+[2016-11-29 22:37:38,891] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 211, in add_balance
+    app.logger.error(message + "file error")
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 326, in clear_zip
+    def clear_zip():
+  File "C:\Python27\lib\shutil.py", line 252, in rmtree
+    onerror(os.remove, fullname, sys.exc_info())
+  File "C:\Python27\lib\shutil.py", line 250, in rmtree
+    os.remove(fullname)
+WindowsError: [Error 32] : './app/static/upload/data\\ALI0577.csv'
+[2016-11-29 22:40:27,875] {C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py:201} ERROR - conver to ./app/static/upload/data/ALI0677.csvdata error
+[2016-11-29 22:40:27,881] {C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py:210} ERROR - CQC1254,ABC3829,ALI0677,SWU7814,file error
+[2016-11-29 22:40:27,881] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 211, in add_balance
+    app.logger.error(message + "file error")
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 326, in clear_zip
+    def clear_zip():
+  File "C:\Python27\lib\shutil.py", line 252, in rmtree
+    onerror(os.remove, fullname, sys.exc_info())
+  File "C:\Python27\lib\shutil.py", line 250, in rmtree
+    os.remove(fullname)
+WindowsError: [Error 32] : './app/static/upload/data\\ALI0577.csv'
+[2016-11-29 22:45:59,420] {C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py:210} ERROR - CQA7074,CQD3554,CMD0091,CQD0403,CQC1254,CMC5102,ICC8451,ABC3829,ALI7789,ALI0677,ALI0577,SWU7814,file error
+[2016-11-29 22:46:33,711] {C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py:210} ERROR - CQA7074,CQD3554,CMD0091,CQD0403,CQC1254,CMC5102,ICC8451,ABC3829,ALI7789,ALI0677,ALI0577,SWU7814,file error
+[2016-11-29 22:46:51,555] {C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py:210} ERROR - ABC3829,file error
+[2016-11-29 22:49:26,687] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:211} ERROR - ABC3829,ALI0677,SWU7814,file error
+[2016-11-29 22:49:35,072] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:211} ERROR - CQA7074,CQD3554,CMD0091,CQD0403,CQC1254,CMC5102,ICC8451,ABC3829,ALI7789,ALI0677,ALI0577,SWU7814,file error
+[2016-11-29 22:50:36,407] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:211} ERROR - ABC3829,ALI0677,SWU7814,file error
+[2016-11-29 23:09:31,526] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on / [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 87, in index
+    return render_template("index.html", accounts=accounts)
+  File "C:\Python27\lib\site-packages\flask\templating.py", line 134, in render_template
+    context, ctx.app)
+  File "C:\Python27\lib\site-packages\flask\templating.py", line 116, in _render
+    rv = template.render(context)
+  File "C:\Python27\lib\site-packages\jinja2\environment.py", line 989, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "C:\Python27\lib\site-packages\jinja2\environment.py", line 754, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\templates\base.html", line 21, in template
+    {% bloack title %}
+TemplateSyntaxError: Encountered unknown tag 'bloack'.
+[2016-11-29 23:09:42,278] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on / [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 87, in index
+    return render_template("index.html", accounts=accounts)
+  File "C:\Python27\lib\site-packages\flask\templating.py", line 134, in render_template
+    context, ctx.app)
+  File "C:\Python27\lib\site-packages\flask\templating.py", line 116, in _render
+    rv = template.render(context)
+  File "C:\Python27\lib\site-packages\jinja2\environment.py", line 989, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "C:\Python27\lib\site-packages\jinja2\environment.py", line 754, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\templates\base.html", line 22, in template
+    {% end block %}
+TemplateSyntaxError: Encountered unknown tag 'end'. Jinja was looking for the following tags: 'endblock'. The innermost block that needs to be closed is 'block'.
+[2016-11-30 09:52:01,375] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 200, in add_balance
+    journal_add_count += list.count(available_content)
+TypeError: count() takes exactly one argument (0 given)
+[2016-11-30 15:38:50,588] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_journal [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 213, in list_journal
+    return jsonify(status="success", journals = [journal.to_json() for journal in journals])
+AttributeError: 'FINANCIAL_JOURNAL' object has no attribute 'to_json'
+[2016-12-01 10:18:56,621] {C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py:182} ERROR - ABC3829,file error
+[2016-12-01 17:31:50,976] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 124, in list_balance
+    return jsonify(status="success", balance_lists=balance_lists)
+  File "C:\Python27\lib\site-packages\flask\json.py", line 266, in jsonify
+    (dumps(data, indent=indent, separators=separators), '\n'),
+  File "C:\Python27\lib\site-packages\flask\json.py", line 126, in dumps
+    rv = _json.dumps(obj, **kwargs)
+  File "C:\Python27\lib\json\__init__.py", line 251, in dumps
+    sort_keys=sort_keys, **kw).encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 209, in encode
+    chunks = list(chunks)
+  File "C:\Python27\lib\json\encoder.py", line 434, in _iterencode
+    for chunk in _iterencode_dict(o, _current_indent_level):
+  File "C:\Python27\lib\json\encoder.py", line 408, in _iterencode_dict
+    for chunk in chunks:
+  File "C:\Python27\lib\json\encoder.py", line 332, in _iterencode_list
+    for chunk in chunks:
+  File "C:\Python27\lib\json\encoder.py", line 408, in _iterencode_dict
+    for chunk in chunks:
+  File "C:\Python27\lib\json\encoder.py", line 442, in _iterencode
+    o = _default(o)
+  File "C:\Python27\lib\site-packages\flask\json.py", line 83, in default
+    return _json.JSONEncoder.default(self, o)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: Decimal('0') is not JSON serializable
+[2016-12-02 09:53:16,240] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 129, in list_balance
+    balance_time = line["DATETIME"].strftime("%Y-%m-%d %H:%M:%S")
+TypeError: 'FINANCIAL_BALANCE' object has no attribute '__getitem__'
+[2016-12-02 09:54:39,736] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 129, in list_balance
+    balance_lists[line["DATETIME"]] = line
+TypeError: 'FINANCIAL_BALANCE' object has no attribute '__getitem__'
+[2016-12-02 09:55:01,933] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 129, in list_balance
+    balance_lists[str(line["DATETIME"])] = line
+TypeError: 'FINANCIAL_BALANCE' object has no attribute '__getitem__'
+[2016-12-02 09:58:48,714] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 130, in list_balance
+    balance["ID"] = line["ID"]
+TypeError: 'FINANCIAL_BALANCE' object has no attribute '__getitem__'
+[2016-12-02 10:10:04,684] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 136, in list_balance
+    balance_lists[str(line.DATETIME)][DATA].append(balance)
+TypeError: unhashable type: 'dict'
+[2016-12-02 10:55:08,000] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 118, in list_balance
+    balance_lists = dict()
+UnboundLocalError: local variable 'dict' referenced before assignment
+[2016-12-02 10:56:01,819] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 118, in list_balance
+    balance_lists = dict()
+UnboundLocalError: local variable 'dict' referenced before assignment
+[2016-12-02 10:56:08,062] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 118, in list_balance
+    balance_lists = dict()
+UnboundLocalError: local variable 'dict' referenced before assignment
+[2016-12-03 11:06:35,711] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 131, in list_balance
+    money += data["MONEY"]
+TypeError: string indices must be integers, not str
+[2016-12-03 11:07:24,183] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 131, in list_balance
+    money += float(data["MONEY"])
+TypeError: string indices must be integers, not str
+[2016-12-03 11:07:27,559] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\finacneWeb\app\views.py", line 131, in list_balance
+    money += float(data["MONEY"])
+TypeError: string indices must be integers, not str
+[2016-12-03 11:09:13,589] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 130, in list_balance
+    for data in line["DATA"]:
+TypeError: string indices must be integers, not str
+[2016-12-03 11:09:15,382] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 130, in list_balance
+    for data in line["DATA"]:
+TypeError: string indices must be integers, not str
+[2016-12-03 11:09:23,424] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 130, in list_balance
+    for data in line["DATA"]:
+TypeError: string indices must be integers, not str
+[2016-12-03 11:10:19,736] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/finacneWeb\app\views.py", line 131, in list_balance
+    money += float(line[data]["MONEY"])
+TypeError: string indices must be integers, not dict
+[2016-12-04 19:37:17,869] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_account [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\fine\app\views.py", line 87, in list_account
+    FINANCIAL_BALANCE.ACCOUNT_ID).all()
+  File "C:\Python27\lib\site-packages\sqlalchemy\orm\query.py", line 2645, in all
+    return list(self)
+  File "C:\Python27\lib\site-packages\sqlalchemy\orm\query.py", line 2797, in __iter__
+    return self._execute_and_instances(context)
+  File "C:\Python27\lib\site-packages\sqlalchemy\orm\query.py", line 2818, in _execute_and_instances
+    close_with_result=True)
+  File "C:\Python27\lib\site-packages\sqlalchemy\orm\query.py", line 2827, in _get_bind_args
+    **kw
+  File "C:\Python27\lib\site-packages\sqlalchemy\orm\query.py", line 2809, in _connection_from_session
+    conn = self.session.connection(**kw)
+  File "C:\Python27\lib\site-packages\sqlalchemy\orm\session.py", line 966, in connection
+    execution_options=execution_options)
+  File "C:\Python27\lib\site-packages\sqlalchemy\orm\session.py", line 971, in _connection_for_bind
+    engine, execution_options)
+  File "C:\Python27\lib\site-packages\sqlalchemy\orm\session.py", line 403, in _connection_for_bind
+    conn = bind.contextual_connect()
+  File "C:\Python27\lib\site-packages\sqlalchemy\engine\base.py", line 2103, in contextual_connect
+    self._wrap_pool_connect(self.pool.connect, None),
+  File "C:\Python27\lib\site-packages\sqlalchemy\engine\base.py", line 2142, in _wrap_pool_connect
+    e, dialect, self)
+  File "C:\Python27\lib\site-packages\sqlalchemy\engine\base.py", line 1456, in _handle_dbapi_exception_noconnection
+    exc_info
+  File "C:\Python27\lib\site-packages\sqlalchemy\util\compat.py", line 202, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "C:\Python27\lib\site-packages\sqlalchemy\engine\base.py", line 2138, in _wrap_pool_connect
+    return fn()
+  File "C:\Python27\lib\site-packages\sqlalchemy\pool.py", line 387, in connect
+    return _ConnectionFairy._checkout(self)
+  File "C:\Python27\lib\site-packages\sqlalchemy\pool.py", line 766, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Python27\lib\site-packages\sqlalchemy\pool.py", line 516, in checkout
+    rec = pool._do_get()
+  File "C:\Python27\lib\site-packages\sqlalchemy\pool.py", line 1138, in _do_get
+    self._dec_overflow()
+  File "C:\Python27\lib\site-packages\sqlalchemy\util\langhelpers.py", line 60, in __exit__
+    compat.reraise(exc_type, exc_value, exc_tb)
+  File "C:\Python27\lib\site-packages\sqlalchemy\pool.py", line 1135, in _do_get
+    return self._create_connection()
+  File "C:\Python27\lib\site-packages\sqlalchemy\pool.py", line 333, in _create_connection
+    return _ConnectionRecord(self)
+  File "C:\Python27\lib\site-packages\sqlalchemy\pool.py", line 461, in __init__
+    self.__connect(first_connect_check=True)
+  File "C:\Python27\lib\site-packages\sqlalchemy\pool.py", line 651, in __connect
+    connection = pool._invoke_creator(self)
+  File "C:\Python27\lib\site-packages\sqlalchemy\engine\strategies.py", line 105, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "C:\Python27\lib\site-packages\sqlalchemy\engine\default.py", line 392, in connect
+    return self.dbapi.connect(*cargs, **cparams)
+  File "C:\Python27\lib\site-packages\MySQLdb\__init__.py", line 81, in Connect
+    return Connection(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\MySQLdb\connections.py", line 193, in __init__
+    super(Connection, self).__init__(*args, **kwargs2)
+OperationalError: (_mysql_exceptions.OperationalError) (2003, "Can't connect to MySQL server on '127.0.0.1' (10061)")
+[2016-12-05 09:41:55,892] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\fine\app\views.py", line 153, in add_balance
+    file.save(os.path.join(basedir, filename))
+  File "C:\Python27\lib\site-packages\werkzeug\datastructures.py", line 2657, in save
+    dst = open(dst, 'wb')
+IOError: [Errno 2] No such file or directory: 'C:\\Users\\gm925\\PycharmProjects\\fine\\app/static/upload/finance.zip'
+[2016-12-05 09:42:52,226] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\fine\app\views.py", line 221, in add_balance
+    if account.TYPE == "淇＄敤鍗?:
+AttributeError: 'FINANCIAL_ACCOUNT' object has no attribute 'TYPE'
+[2016-12-05 09:43:20,522] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\fine\app\views.py", line 221, in add_balance
+    if account.TYPE == u"淇＄敤鍗?:
+AttributeError: 'FINANCIAL_ACCOUNT' object has no attribute 'TYPE'
+[2016-12-05 09:44:00,615] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /add_balance [POST]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:/Users/gm925/PycharmProjects/fine\app\views.py", line 221, in add_balance
+    print account.TYPE
+AttributeError: 'FINANCIAL_ACCOUNT' object has no attribute 'TYPE'
+[2016-12-05 10:29:55,588] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_balance [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\fine\app\views.py", line 126, in list_balance
+    balance_lists[str(line.DATETIME)]["DATA"].append(balance)
+AttributeError: 'result' object has no attribute 'DATETIME'
+[2016-12-05 10:37:19,664] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_journal [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\fine\app\views.py", line 102, in list_journal
+    list = journal.FINANCIAL_JOURNAL.tojson()
+AttributeError: 'FINANCIAL_JOURNAL' object has no attribute 'FINANCIAL_JOURNAL'
+[2016-12-05 10:37:57,573] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_journal [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\fine\app\views.py", line 104, in list_journal
+    list["NAME"] = str(journal["NAME"])
+TypeError: tuple indices must be integers, not str
+[2016-12-05 10:38:24,019] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_journal [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\fine\app\views.py", line 104, in list_journal
+    list["NAME"] = journal["NAME"]
+TypeError: tuple indices must be integers, not str
+[2016-12-05 10:40:47,296] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_journal [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\fine\app\views.py", line 104, in list_journal
+    list["NAME"] = journal["NAME"]
+TypeError: tuple indices must be integers, not str
+[2016-12-05 10:48:48,497] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_journal [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\fine\app\views.py", line 104, in list_journal
+    list["ID"] = journal["ID"]
+TypeError: tuple indices must be integers, not str
+[2016-12-05 10:48:49,260] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_journal [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\fine\app\views.py", line 104, in list_journal
+    list["ID"] = journal["ID"]
+TypeError: tuple indices must be integers, not str
+[2016-12-05 10:48:49,463] {C:\Python27\lib\site-packages\flask\app.py:1587} ERROR - Exception on /list_journal [GET]
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python27\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\gm925\PycharmProjects\fine\app\views.py", line 104, in list_journal
+    list["ID"] = journal["ID"]
+TypeError: tuple indices must be integers, not str
