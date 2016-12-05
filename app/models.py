@@ -5,6 +5,7 @@ from financeControl import Finance
 class FINANCIAL_ACCOUNT(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     NAME = db.Column(db.String)
+    TYPE = db.Column(db.String)
     SHORT_NAME = db.Column(db.String)
     REMARK = db.Column(db.String)
     DATA = db.Column(db.String)
@@ -29,7 +30,7 @@ class FINANCIAL_ACCOUNT(db.Model):
 class FINANCIAL_JOURNAL(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     DATE = db.Column(db.DATETIME)
-    ACCOUNT_ID = db.Column(db.Integer)
+    ACCOUNT_ID = db.Column(db.Integer,db.ForeignKey('FINANCIAL_ACCOUNT.ID'))
     MONEY = db.Column(db.Float)
     JOB_ID = db.Column(db.Integer)
     REASON = db.Column(db.String)

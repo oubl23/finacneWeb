@@ -94,6 +94,22 @@ def list_account():
     # return jsonify(status="success", finances=[finance.FINANCIAL_ACCOUNT.tojson() for finance in finances])
     return jsonify(status="success", accounts=accounts)
 
+@app.route('/list_journal')
+def list_journal():
+    journals = db.session.query(FINANCIAL_JOURNAL.ID,FINANCIAL_JOURNAL.DATE,FINANCIAL_JOURNAL.MONEY,FINANCIAL_JOURNAL.REASON,FINANCIAL_JOURNAL.REMARK,).outerjoin(FINANCIAL_ACCOUNT,FINANCIAL_JOURNAL.ACCOUNT_ID == FINANCIAL_ACCOUNT.ID).add_columns(
+        FINANCIAL_ACCOUNT.SHORT_NAME,FINANCIAL_ACCOUNT.NAME).all()
+    lists = []
+    for journal in journals:
+        list = dict()
+        list["ID"] = journal.ID
+        list["ACCOUNT_ID"] = journal.NAME
+        list["DATE"] = journal.DATE
+        list["MONEY"] = journal.MONEY
+        list["REMARK"] = journal.REMARK
+        list["REASON"] = journal.REASON
+        lists.append(list)
+    return jsonify(data = lists)
+
 @app.route("/list_balance")
 def list_balance():
     # TODO:chang data in list
@@ -101,7 +117,8 @@ def list_balance():
         [((FINANCIAL_BALANCE.CHECKED == 0), 1)], else_=0))
     ).group_by(FINANCIAL_BALANCE.DATETIME).order_by(db.desc(FINANCIAL_BALANCE.DATETIME)).all()
 
-    balances_all = FINANCIAL_BALANCE.query.all()
+
+    # balances_all = FINANCIAL_BALANCE.query.all()
     balance_lists = OrderedDict()
     for balance in balances:
         balance_time = balance[1].strftime("%Y-%m-%d %H:%M:%S")
@@ -113,10 +130,12 @@ def list_balance():
         balance_list["DATA"] = []
         balance_lists[balance_time] = balance_list
 
+    balances_all = db.session.query(FINANCIAL_BALANCE.ID,FINANCIAL_BALANCE.MONEY,FINANCIAL_BALANCE.ACCESSARY,FINANCIAL_BALANCE.CHECKED,FINANCIAL_BALANCE.DATETIME).outerjoin(FINANCIAL_ACCOUNT,FINANCIAL_BALANCE.ACCOUNT_ID == FINANCIAL_ACCOUNT.ID).add_columns(
+        FINANCIAL_ACCOUNT.SHORT_NAME,FINANCIAL_ACCOUNT.NAME).all()
     for line in balances_all:
         balance = dict()
         balance["ID"] = line.ID
-        balance["ACCOUNT_ID"] = line.ACCOUNT_ID
+        balance["ACCOUNT_ID"] = line.NAME
         balance["CHECKED"] = line.CHECKED
         balance["MONEY"]  = line.MONEY
         balance["ACCESSARY"] = line.ACCESSARY
@@ -218,8 +237,12 @@ def add_balance():
         account = FINANCIAL_ACCOUNT.query.filter_by(ID=int(k)).first()
 
         if account:
+            if account.TYPE == u"信用卡":
+                money = float(v["MONEY"])  - float(v["ACCESSARY"])
+            else:
+                money = float(v["MONEY"])
             balance = FINANCIAL_BALANCE(ACCOUNT_ID=int(k), DATETIME=checktime,
-                                        MONEY=float(v["MONEY"]),
+                                        MONEY=money,
                                         ACCESSARY=float(v["ACCESSARY"]), CHECKED=0)
             db.session.add(balance)
             db.session.flush()
@@ -236,11 +259,6 @@ def add_balance():
     clear_zip()
     message = u"添加" + str(journal_add_count) + u"条资产记录"
     return jsonify(status="success", message=message)
-
-@app.route('/list_journal')
-def list_journal():
-    journals = FINANCIAL_JOURNAL.query.all()
-    return jsonify(data = [journal.tojson() for journal in journals])
 
 @app.route('/update_journal', methods=['POST',])
 def update_journal():

@@ -168,6 +168,22 @@ def list_balance():
     for line in finacnes:
         print line[2]
 
+@manager.command
+def query_s():
+    #fc = db.session.query(FINANCIAL_BALANCE).all()
+    fc = db.session.query(FINANCIAL_BALANCE.ID,FINANCIAL_BALANCE.MONEY,FINANCIAL_BALANCE.ACCESSARY,FINANCIAL_BALANCE.CHECKED).outerjoin(FINANCIAL_ACCOUNT,FINANCIAL_BALANCE.ACCOUNT_ID == FINANCIAL_ACCOUNT.ID).add_columns(
+        FINANCIAL_ACCOUNT.SHORT_NAME,FINANCIAL_ACCOUNT.NAME).all()
+    for f in fc:
+        print f[0]
+
+@manager.command
+def query_journal():
+    #fc = db.session.query(FINANCIAL_BALANCE).all()
+    fc =  db.session.query(FINANCIAL_JOURNAL.ID,FINANCIAL_JOURNAL.DATE,FINANCIAL_JOURNAL.MONEY,FINANCIAL_JOURNAL.REASON,FINANCIAL_JOURNAL.REMARK,).outerjoin(FINANCIAL_ACCOUNT,FINANCIAL_JOURNAL.ACCOUNT_ID == FINANCIAL_ACCOUNT.ID).add_columns(
+        FINANCIAL_ACCOUNT.SHORT_NAME,FINANCIAL_ACCOUNT.NAME).all()
+    for f in fc:
+        print f[0]
+
 
 def get_and_check(session, model, content):
     data = []
